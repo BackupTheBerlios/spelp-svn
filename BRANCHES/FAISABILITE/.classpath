@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.5.0_06"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk"/>
 	<classpathentry kind="lib" path="lib/swingx-2006_10_20.jar"/>
+	<classpathentry kind="lib" path="D:/Cours/-- Cours -- IUP/M1/BE/workspace/SPELP/activation.jar"/>
+	<classpathentry kind="lib" path="D:/Cours/-- Cours -- IUP/M1/BE/workspace/SPELP/jaxb1-impl.jar"/>
+	<classpathentry kind="lib" path="D:/Cours/-- Cours -- IUP/M1/BE/workspace/SPELP/jaxb-api.jar"/>
+	<classpathentry kind="lib" path="D:/Cours/-- Cours -- IUP/M1/BE/workspace/SPELP/jaxb-api-doc.zip"/>
+	<classpathentry kind="lib" path="D:/Cours/-- Cours -- IUP/M1/BE/workspace/SPELP/jaxb-api-src.zip"/>
+	<classpathentry kind="lib" path="D:/Cours/-- Cours -- IUP/M1/BE/workspace/SPELP/jaxb-impl.jar"/>
+	<classpathentry kind="lib" path="D:/Cours/-- Cours -- IUP/M1/BE/workspace/SPELP/jaxb-impl.src.zip"/>
+	<classpathentry kind="lib" path="D:/Cours/-- Cours -- IUP/M1/BE/workspace/SPELP/jaxb-xjc.jar"/>
+	<classpathentry kind="lib" path="D:/Cours/-- Cours -- IUP/M1/BE/workspace/SPELP/jaxb-xjc.src.zip"/>
+	<classpathentry kind="lib" path="D:/Cours/-- Cours -- IUP/M1/BE/workspace/SPELP/jsr173_1.0_api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
