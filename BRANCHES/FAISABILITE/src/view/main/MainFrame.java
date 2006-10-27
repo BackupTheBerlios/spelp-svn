@@ -17,20 +17,20 @@ import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 
 public class MainFrame extends JFrame{
-	
-	
-	
-	
 	private JMenuBar menu = null;
 	private JMenu menuFichier = null;
 	private JMenuItem itemFichier = null ;
-
+	private JMenuItem itemExit = null ;
+	public static Dimension dimFrame ;
 	/**
 	 * This method initializes this
 	 * 
 	 */
 	private void initialize() {
        this.setJMenuBar(getMenu());
+       dimFrame = Toolkit.getDefaultToolkit().getScreenSize();
+       this.add(new TreePanel(),BorderLayout.CENTER);
+       this.add(new InfoPanel(),BorderLayout.SOUTH);
 			
 	}
 
@@ -45,19 +45,36 @@ public class MainFrame extends JFrame{
 			
 			menu.setPreferredSize(new Dimension(0, 20));
 			menu.add(getMenuFichier());
+			
 		}
 		return menu;
 	}
 
+	private JMenuItem getExitItem(){
+		if (itemExit == null){
+			itemExit = new JMenuItem("Quitter");
+			itemExit.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+						System.exit(0);
+				}
+			});
+		}
+		return (itemExit);
+		
+	}
 	private JMenuItem getFichierItem(){
 		if (itemFichier == null) {
-			itemFichier = new JMenuItem("ouvrir");
+			itemFichier = new JMenuItem("Ouvrir");
 			itemFichier.addActionListener(new ActionListener(){
 
 				public void actionPerformed(ActionEvent e) {
 					JFileChooser opening = new JFileChooser();
-					if (opening.showOpenDialog(MainFrame.this) == 1){
-						
+					opening.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES );
+					if (opening.showOpenDialog(MainFrame.this) == JFileChooser.CANCEL_OPTION){
+						System.out.println("cancel");
+					}
+					else {
+						System.out.println(opening.getSelectedFile());
 					}
 				}
 				
@@ -75,6 +92,7 @@ public class MainFrame extends JFrame{
 		if (menuFichier == null) {
 			menuFichier = new JMenu("Fichier");
 			menuFichier.add(getFichierItem());
+			menuFichier.add(getExitItem());
 		}
 		return menuFichier;
 	}
@@ -84,6 +102,7 @@ public class MainFrame extends JFrame{
 	 */
 	public static void main(String[] args) {
 		MainFrame f = new MainFrame();
+		
 	}
 	
 	public MainFrame () {
@@ -95,6 +114,10 @@ public class MainFrame extends JFrame{
 		
 		initialize();
 		this.setVisible(true);
+	}
+
+	public Dimension getDimFrame() {
+		return dimFrame;
 	}
 		
 
