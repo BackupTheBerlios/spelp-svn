@@ -26,13 +26,14 @@ public class testUnMarshall {
 	            JAXBElement<?> el = 
 	                (JAXBElement<?>)u.unmarshal(new File("toyton.xml"));
 	            MethodLibrary mlb = (MethodLibrary)el.getValue();
-	           MethodPlugin mp;
+	            MethodPlugin mp;
 	           
 	            
 	           
 	            List<MethodPlugin> l = mlb.getMethodPlugin();
 	            List<MethodPackage> l2 ;
 	            List<Object> l3 ;
+	            List<Object> l4 ;
 	            for (int i = 0; i< l.size(); i++) {
 	            	System.out.println(l.get(i).getName());
 	            	mp = l.get(i);
@@ -41,14 +42,15 @@ public class testUnMarshall {
 	            		 System.out.println("	"+l2.get(y).getName());
 	            		 l3 = l2.get(y).getReusedPackageOrMethodPackage();
 	            		 for (int z = 0; z< l3.size(); z++) {
-	            			 System.out.println("XXX		"+((MethodPackage)l3.get(z)).getName());
+	            			 System.out.println("		"+((MethodPackage)l3.get(z)).getName());
+	            			 l4 = ((MethodPackage)l3.get(z)).getReusedPackageOrMethodPackage();
+	            			 for (int t = 0; t< l4.size(); t++) {
+	            				 System.out.println("			"+((MethodPackage)l4.get(t)).getName());
+	            				
+	            			 }
 	            		 }
-	            	 }
-	            	
-
-	            	
-	            }
-	              
+	            	 }	            	
+	            }	              
 	        } catch( Exception e ) {
 	            e.printStackTrace();
 	        }
