@@ -22,10 +22,9 @@ public class testUnMarshall {
 	        try {
 	            JAXBContext jc = JAXBContext.newInstance("org.eclipse.epf.uma._1_0");
 	            Unmarshaller u = jc.createUnmarshaller();
-	           
-	            JAXBElement<?> el = 
-	                (JAXBElement<?>)u.unmarshal(new File("toyton.xml"));
-	            MethodLibrary mlb = (MethodLibrary)el.getValue();
+	            JAXBElement<MethodLibrary> el = 
+	                (JAXBElement<MethodLibrary>)u.unmarshal(new File("toyton.xml"));
+	            MethodLibrary mlb = el.getValue();
 	            MethodPlugin mp;
 	           
 	            
@@ -38,19 +37,19 @@ public class testUnMarshall {
 	            	System.out.println(l.get(i).getName());
 	            	mp = l.get(i);
 	            	l2 = mp.getMethodPackage();
-	            	 for (int y = 0; y< l2.size(); y++) {
-	            		 System.out.println("	"+l2.get(y).getName());
-	            		 l3 = l2.get(y).getReusedPackageOrMethodPackage();
-	            		 for (int z = 0; z< l3.size(); z++) {
-	            			 System.out.println("		"+((MethodPackage)l3.get(z)).getName());
-	            			 l4 = ((MethodPackage)l3.get(z)).getReusedPackageOrMethodPackage();
-	            			 for (int t = 0; t< l4.size(); t++) {
-	            				 System.out.println("			"+((MethodPackage)l4.get(t)).getName());
-	            				
-	            			 }
-	            		 }
-	            	 }	            	
-	            }	              
+	            	for (int y = 0; y< l2.size(); y++) {
+	            		System.out.println("	"+l2.get(y).getName());
+	            		l3 = l2.get(y).getReusedPackageOrMethodPackage();
+	            		for (int z = 0; z< l3.size(); z++) {
+	            			System.out.println("		"+((MethodPackage)l3.get(z)).getName());
+	            			l4 = ((MethodPackage)l3.get(z)).getReusedPackageOrMethodPackage();
+	            			for (int t = 0; t< l4.size(); t++) {
+	            				System.out.println("			"+((MethodPackage)l4.get(t)).getName());
+	            				System.out.println("			"+l4.get(t).getClass().getName());
+	            			}
+	            		}
+	            	}	            	
+	           }	              
 	        } catch( Exception e ) {
 	            e.printStackTrace();
 	        }
