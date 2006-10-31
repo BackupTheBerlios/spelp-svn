@@ -1,6 +1,7 @@
 package parser;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,19 +30,22 @@ public class testJxPath {
 	           Unmarshaller u = jc.createUnmarshaller();
 	           	           
 	           JAXBElement<MethodLibrary> el = 
-	               (JAXBElement<MethodLibrary>)u.unmarshal(new File("toyton.xml"));
+	               (JAXBElement<MethodLibrary>)u.unmarshal(new FileInputStream("toyton.xml"));
 	           MethodLibrary mlb = el.getValue();
 
 
 	             JXPathContext context = JXPathContext.newContext(mlb);
-	             System.out.println("dqsfqsd");
+	             
+	             System.out.println(context);
 	             /*Iterator tasks = context.iterate("//MethodPlugin[@name='openup_basic']");
 	             System.out.println("dqsfqsd");
 	             while (tasks.hasNext()) {
 	            	 System.out.println("dqsfqsd");
 	            	 System.out.println( ((MethodPlugin)tasks.next()).getName());
 	             }*/
-	             System.out.println( ((MethodPlugin)context.getValue("//MethodPlugin[@name='openup_basic']")).getName());
+	        
+	             //System.out.println( ((MethodLibrary)context.getValue("//prout")).getName());
+	             System.out.println( ((BreakdownElement)context.getValue("//BreakdownElement")).getName());
 	             System.out.println("dqsfqsd");
 	            List<RoleDescriptor> roles;	            
 	            
