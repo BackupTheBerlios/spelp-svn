@@ -25,10 +25,8 @@ public class testUnMarshall {
 	            JAXBElement<MethodLibrary> el = 
 	                (JAXBElement<MethodLibrary>)u.unmarshal(new File("toyton.xml"));
 	            MethodLibrary mlb = el.getValue();
+	      
 	            MethodPlugin mp;
-	           
-	            
-	           
 	            List<MethodPlugin> l = mlb.getMethodPlugin();
 	            List<MethodPackage> l2 ;
 	            List<Object> l3 ;
