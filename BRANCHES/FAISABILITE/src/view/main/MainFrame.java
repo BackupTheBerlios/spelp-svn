@@ -12,6 +12,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileFilter;
 import java.util.Vector;
 
 import javax.swing.JMenuBar;
@@ -59,7 +60,7 @@ public class MainFrame extends JFrame{
 
 	private JMenuItem getExitItem(){
 		if (itemExit == null){
-			itemExit = new JMenuItem("Quitter");
+			itemExit = new JMenuItem("Exit");
 			itemExit.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
 						System.exit(0);
@@ -71,13 +72,14 @@ public class MainFrame extends JFrame{
 	}
 	private JMenuItem getFichierItem(){
 		if (itemFichier == null) {
-			itemFichier = new JMenuItem("Ouvrir");
+			itemFichier = new JMenuItem("Open");
 			itemFichier.addActionListener(new ActionListener(){
 
 				public void actionPerformed(ActionEvent e) {
 					String myHome = "." + File.separator ;
 					System.out.println(myHome);
 					JFileChooser opening = new JFileChooser(myHome);
+					opening.setFileFilter(new myFileFilter());
 					opening.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES );
 					if (opening.showOpenDialog(MainFrame.this) == JFileChooser.CANCEL_OPTION){
 						System.out.println("cancel");
@@ -109,7 +111,7 @@ public class MainFrame extends JFrame{
 	 */
 	private JMenu getMenuFichier() {
 		if (menuFichier == null) {
-			menuFichier = new JMenu("Fichier");
+			menuFichier = new JMenu("File");
 			menuFichier.add(getFichierItem());
 			menuFichier.add(getExitItem());
 		}
@@ -125,7 +127,7 @@ public class MainFrame extends JFrame{
 	}
 	
 	public MainFrame () {
-		super("SPELP : Assistant d'execution de processus");
+		super("SPELP : Process Execution Assistant");
 		this.setLayout(new BorderLayout());
 		
 		this.setSize(Toolkit.getDefaultToolkit().getScreenSize().width/4, Toolkit.getDefaultToolkit().getScreenSize().height/3);
@@ -139,5 +141,18 @@ public class MainFrame extends JFrame{
 		return dimFrame;
 	}
 		
+	private class myFileFilter extends javax.swing.filechooser.FileFilter{
 
+		@Override
+		public boolean accept(File arg0) {
+			return(arg0.getName().endsWith("xml")||arg0.getName().endsWith("XML")||arg0.isDirectory());
+		}
+
+		@Override
+		public String getDescription() {
+			// TODO Auto-generated method stub
+			return "XML files export from EPF (*.XML)";
+		}
+		
+	}
 }  //  @jve:decl-index=0:visual-constraint="10,10"
