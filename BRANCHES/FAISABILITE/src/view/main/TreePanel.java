@@ -1,26 +1,24 @@
 package view.main;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-
-import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneLayout;
 
 import org.jdesktop.swingx.JXTree;
 
-public class TreePanel extends JPanel {
+public class TreePanel extends JScrollPane {
 	
 	private JXTree tree = null ;
 	
 	public TreePanel(){
 		super();
-		this.setLayout(new BorderLayout());
-		this.add(getTree(),BorderLayout.CENTER);
+		this.setLayout(new ScrollPaneLayout());
+		this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+//		this.add(getTree());
 	}
 	
-	public JXTree getTree (){
-		if (tree == null){
-			tree = new JXTree();
-		}
-		return (tree);
+	public void putTree (JXTree t){
+		tree= t ;
+		this.setViewportView(t);
 	}
+	
 }
