@@ -207,4 +207,27 @@ public class Parser {
 		return taskList;
 	}
 	
+	/**
+	 * function getDescriptionByRole
+	 * @return Arraylist
+	 * @param String roleName
+	 *  */	
+	public String getDescriptionByRole(String roleName) {
+		ArrayList<String> primaryTask = new ArrayList<String>();
+		// get the id with the parameter
+		Node node;
+		String desc = "";
+		String req = "//ContentElement[@name='"+roleName+"']/Presentation/MainDescription";
+		try {
+			FileInputStream url = new FileInputStream(FileXML);
+			node = evaluate(url, req);
+			 desc = node.getTextContent();
+			System.out.println(desc);
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return desc;
+	}
 }
