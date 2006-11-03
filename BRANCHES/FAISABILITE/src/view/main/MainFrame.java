@@ -52,6 +52,8 @@ public class MainFrame extends JFrame{
        this.add(tp,BorderLayout.CENTER);
        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        this.add(new InfoPanel(),BorderLayout.SOUTH);
+       
+       // ajout listener deplacement
        this.addComponentListener(new ComponentListener(){
 		public void componentHidden(ComponentEvent e) {
 			// TODO Auto-generated method stub	
@@ -199,7 +201,7 @@ public class MainFrame extends JFrame{
 			     if (evt.getClickCount() == 2){
 			    	 TreePath path =
 				         t.getPathForLocation(evt.getX(), evt.getY()); 
-				      if (path != null) { 
+				      if (path != null && ((DefaultMutableTreeNode)path.getLastPathComponent()).isLeaf()){ 
 				    	Point p = getHTMLLocation();
 						HTMLViewer h = HTMLViewer.getInstance(p);
 						h.setMessage(path.getLastPathComponent().toString());

@@ -20,6 +20,7 @@ public class InfoPanel extends JXPanel {
 			tasks = new JXTaskPane();
 			tasks.setTitle("Informations");
 			tasks.setExpanded(false);
+			
 		}
 		return tasks ;
 	}
