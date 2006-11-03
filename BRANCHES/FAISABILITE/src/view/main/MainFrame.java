@@ -187,9 +187,7 @@ public class MainFrame extends JFrame{
 	private JXTree getTreeWithTasks(String role){
 		//ArrayList a = Parser.getInstance().getTask();
 		
-		ArrayList a = new ArrayList ();
-		a.add("TACHE 1");
-		a.add("TACHE 2");
+		ArrayList a = Parser.getInstance().getPrimaryTaskByRole(role);
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root Tasks" , true ) ;
 		for (Iterator i = a.iterator() ; i.hasNext();){
 			DefaultMutableTreeNode tmp = new DefaultMutableTreeNode(i.next() , true );
@@ -206,7 +204,7 @@ public class MainFrame extends JFrame{
 						HTMLViewer h = HTMLViewer.getInstance(p);
 						h.setMessage(path.getLastPathComponent().toString());
 						h.setVisible(true);
-				       } 
+					} 
 			     }		  
 			  } 
 			});
