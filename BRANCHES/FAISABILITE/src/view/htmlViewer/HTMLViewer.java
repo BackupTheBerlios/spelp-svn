@@ -1,12 +1,11 @@
 package view.htmlViewer;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 import java.awt.Toolkit;
 
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
-
-import view.main.MainFrame;
 
 public class HTMLViewer extends JFrame {
 	private static HTMLViewer instance = null;
@@ -14,13 +13,13 @@ public class HTMLViewer extends JFrame {
 
 	private JEditorPane myEditorPane;
 	
-	private HTMLViewer() {
+	private HTMLViewer(Point p) {
 		super("HTMLViewer");
 		
 		this.setLayout(new BorderLayout());
 		
 		this.setSize(Toolkit.getDefaultToolkit().getScreenSize().width / 2, Toolkit.getDefaultToolkit().getScreenSize().height / 2);
-		this.setLocation(Toolkit.getDefaultToolkit().getScreenSize().width / 3,0);
+		this.setLocation(p);
 		
 		this.myEditorPane = new JEditorPane();
 		this.myEditorPane.setVisible(true);
@@ -48,9 +47,13 @@ public class HTMLViewer extends JFrame {
 	 * 
 	 * @return l'instance HTMLViewer
 	 */
-	public static HTMLViewer getInstance() {
-		if (HTMLViewer.instance == null)
-			HTMLViewer.instance = new HTMLViewer();
+	public static HTMLViewer getInstance(Point p) {
+		if (HTMLViewer.instance == null){
+			HTMLViewer.instance = new HTMLViewer(p);
+		}
+		else{
+			HTMLViewer.instance.setLocation(p);
+		}
 		
 		return HTMLViewer.instance;
 	}
