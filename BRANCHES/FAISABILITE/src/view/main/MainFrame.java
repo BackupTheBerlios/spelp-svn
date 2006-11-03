@@ -202,7 +202,7 @@ public class MainFrame extends JFrame{
 				      if (path != null && ((DefaultMutableTreeNode)path.getLastPathComponent()).isLeaf()){ 
 				    	Point p = getHTMLLocation();
 						HTMLViewer h = HTMLViewer.getInstance(p);
-						h.setMessage(path.getLastPathComponent().toString());
+						h.setMessage(Parser.getInstance().getDescriptionByTask(path.getLastPathComponent().toString()));
 						h.setVisible(true);
 					} 
 			     }		  
