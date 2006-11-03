@@ -6,6 +6,8 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,6 +20,7 @@ import javax.swing.JMenuItem;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 
 import org.jdesktop.swingx.JXTree;
 
@@ -169,16 +172,21 @@ public class MainFrame extends JFrame{
 			DefaultMutableTreeNode tmp = new DefaultMutableTreeNode(i.next() , true );
 			root.add(tmp) ;
 		}
-		JXTree t = new JXTree (root);
-		t.addTreeSelectionListener(new TreeSelectionListener(){
-			public void valueChanged(TreeSelectionEvent e) {
-				Point p = new Point(MainFrame.this.getLocation().x+MainFrame.this.getWidth(),MainFrame.this.getLocation().y);
-				HTMLViewer h = HTMLViewer.getInstance(p);
-				h.setMessage(e.getPath().toString());
-				h.setVisible(true);
-			}
-		});
-		
+		final JXTree t = new JXTree (root);
+		t.addMouseListener(new MouseAdapter() { 
+			  public void mouseClicked(MouseEvent evt) { 
+			     if (evt.getClickCount() == 2){
+			    	 TreePath path =
+				         t.getPathForLocation(evt.getX(), evt.getY()); 
+				      if (path != null) { 
+				    	Point p = new Point(MainFrame.this.getLocation().x+MainFrame.this.getWidth(),MainFrame.this.getLocation().y);
+						HTMLViewer h = HTMLViewer.getInstance(p);
+						h.setMessage(path.getLastPathComponent().toString());
+						h.setVisible(true);
+				       } 
+			     }		  
+			  } 
+			});
 		return t ;
 	}
 }  //  @jve:decl-index=0:visual-constraint="10,10"
