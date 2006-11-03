@@ -12,15 +12,14 @@ public class InfoPanel extends JXPanel {
 	
 	public InfoPanel () {
 		this.setLayout(new BorderLayout());
-		this.add(getTasks() );
+		this.add(getTasks(),BorderLayout.CENTER);
 	}
 	
 	public JXTaskPane getTasks (){
 		if (tasks == null){
 			tasks = new JXTaskPane();
 			tasks.setTitle("Informations");
-			tasks.setExpanded(true);
-			
+			tasks.setExpanded(false);
 		}
 		return tasks ;
 	}

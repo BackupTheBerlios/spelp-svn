@@ -1,28 +1,28 @@
 package view.main;
 
 import java.awt.BorderLayout;
-import java.awt.Toolkit;
-
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileFilter;
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.Iterator;
 
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JMenu;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.jdesktop.swingx.JXTree;
 
 import parser.Parser;
+import view.htmlViewer.HTMLViewer;
 
 public class MainFrame extends JFrame{
 	private JMenuBar menu = null;
@@ -94,9 +94,9 @@ public class MainFrame extends JFrame{
 						ArrayList<String> v = Parser.getInstance().getRole();
 						DialogRoles d = new DialogRoles(MainFrame.this,v);
 						if (d.getChoix() == DialogRoles.CHOIX_OK){
-							JXTree t = new JXTree() ;
-							MainFrame.this.tp.putTree(t);	
+							MainFrame.this.tp.putTree(MainFrame.this.getTreeWithTasks(d.getRole()));
 						}
+						//d.dispose();
 						
 					}
 				}
@@ -155,6 +155,30 @@ public class MainFrame extends JFrame{
 			// TODO Auto-generated method stub
 			return "XML files export from EPF (*.XML)";
 		}
+	}
+	
+	private JXTree getTreeWithTasks(String role){
+		;
+		//ArrayList a = Parser.getInstance().getTask();
 		
+		ArrayList a = new ArrayList ();
+		a.add("TACHE 1");
+		a.add("TACHE 2");
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root Tasks" , true ) ;
+		for (Iterator i = a.iterator() ; i.hasNext();){
+			DefaultMutableTreeNode tmp = new DefaultMutableTreeNode(i.next() , true );
+			root.add(tmp) ;
+		}
+		JXTree t = new JXTree (root);
+		t.addTreeSelectionListener(new TreeSelectionListener(){
+			public void valueChanged(TreeSelectionEvent e) {
+				Point p = new Point(MainFrame.this.getLocation().x+MainFrame.this.getWidth(),MainFrame.this.getLocation().y);
+				HTMLViewer h = HTMLViewer.getInstance(p);
+				h.setMessage(e.getPath().toString());
+				h.setVisible(true);
+			}
+		});
+		
+		return t ;
 	}
 }  //  @jve:decl-index=0:visual-constraint="10,10"
