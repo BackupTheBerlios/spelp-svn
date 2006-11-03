@@ -9,8 +9,12 @@ import javax.swing.JFrame;
 import view.main.MainFrame;
 
 public class HTMLViewer extends JFrame {
+	private static HTMLViewer instance = null;
+	private String HTMLCode; // Le code HTML affiché 
+
+	private JEditorPane myEditorPane;
 	
-	public HTMLViewer() {
+	private HTMLViewer() {
 		super("HTMLViewer");
 		
 		this.setLayout(new BorderLayout());
@@ -18,19 +22,36 @@ public class HTMLViewer extends JFrame {
 		this.setSize(Toolkit.getDefaultToolkit().getScreenSize().width / 2, Toolkit.getDefaultToolkit().getScreenSize().height / 2);
 		this.setLocation(Toolkit.getDefaultToolkit().getScreenSize().width / 3,0);
 		
-		initialize();
-		this.setVisible(true);
+		this.myEditorPane = new JEditorPane();
+		this.myEditorPane.setVisible(true);
+		this.myEditorPane.setEditable(false);
+		this.myEditorPane.setOpaque(false);
+		this.myEditorPane.setContentType("text/html");
+		this.myEditorPane.setFocusable(false);
 		
-		JEditorPane EP1 = new JEditorPane("text/html","<p><a href='Bidule.htm'>Bidule.htm</a></p>");
-		EP1.setVisible(true);
-		this.getContentPane().add(EP1);
+		this.getContentPane().add(this.myEditorPane);
 	}
 	
-	private void initialize() {
-		
+	/**
+	 * Modifie le texte affiché par le HTMLViewer
+	 * 
+	 * @param message
+	 */
+	public void setMessage(String message) {
+		this.HTMLCode = message;
+		this.myEditorPane.setText(this.HTMLCode);
 	}
 	
-	public static void main(String[] args) {
-		HTMLViewer f = new HTMLViewer();
+	
+	
+	/**
+	 * 
+	 * @return l'instance HTMLViewer
+	 */
+	public static HTMLViewer getInstance() {
+		if (HTMLViewer.instance == null)
+			HTMLViewer.instance = new HTMLViewer();
+		
+		return HTMLViewer.instance;
 	}
 }
