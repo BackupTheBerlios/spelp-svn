@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileFilter;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JMenuBar;
@@ -20,6 +21,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 
 import org.jdesktop.swingx.JXTree;
+
+import parser.Parser;
 
 public class MainFrame extends JFrame{
 	private JMenuBar menu = null;
@@ -37,8 +40,9 @@ public class MainFrame extends JFrame{
        this.setJMenuBar(getMenu());
        dimFrame = Toolkit.getDefaultToolkit().getScreenSize();
        tp = new TreePanel();
-       MainFrame.this.add(tp,BorderLayout.CENTER);
-       //this.add(new InfoPanel(),BorderLayout.SOUTH);
+       this.add(tp,BorderLayout.CENTER);
+       this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+       this.add(new InfoPanel(),BorderLayout.SOUTH);
 			
 	}
 
@@ -85,13 +89,11 @@ public class MainFrame extends JFrame{
 						System.out.println("cancel");
 					}
 					else {
-						MainFrame.XML = opening.getSelectedFile() ;
-						Vector<String> v = new Vector<String>();
-						v.add("tester");
-						v.add("developer");
+						 
+						Parser.getInstance().setFileXML(opening.getSelectedFile().toString());
+						ArrayList<String> v = Parser.getInstance().getRole();
 						DialogRoles d = new DialogRoles(MainFrame.this,v);
 						if (d.getChoix() == DialogRoles.CHOIX_OK){
-							System.out.println("coucou");
 							JXTree t = new JXTree() ;
 							MainFrame.this.tp.putTree(t);	
 						}

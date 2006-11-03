@@ -54,7 +54,7 @@ public class DialogRoles extends JDialog {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(330, 104);
+		this.setSize(330, 90);
 		this.setTitle("Please choose your role");
 		this.setResizable(false);
 		this.setContentPane(getJContentPane());

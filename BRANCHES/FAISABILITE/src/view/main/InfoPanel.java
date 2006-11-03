@@ -19,7 +19,8 @@ public class InfoPanel extends JXPanel {
 		if (tasks == null){
 			tasks = new JXTaskPane();
 			tasks.setTitle("Informations");
-			tasks.add(new JLabel("info 1"));
+			tasks.setExpanded(true);
+			
 		}
 		return tasks ;
 	}
