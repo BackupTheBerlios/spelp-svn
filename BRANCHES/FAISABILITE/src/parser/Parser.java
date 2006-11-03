@@ -2,6 +2,7 @@ package parser;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -21,18 +22,13 @@ public class Parser {
 	private String roleDescriptor = "//BreakdownElement[@*[namespace-uri() and local-name()='type']='uma:RoleDescriptor']";
 	private String taskDescriptor = "//BreakdownElement[@*[namespace-uri() and local-name()='type']='uma:TaskDescriptor']";
 	private static Parser instance;
-	private FileInputStream url;
+
 
     /**
      *  private constructor for the singleton 
      */
 	private Parser() {
-		try {
-			url = new FileInputStream(FileXML);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 
 	/**
@@ -53,8 +49,10 @@ public class Parser {
 	 * @return
 	 */
 	public static Node evaluate(InputStream stream, String expression){
+		
         Node node = null;
         try{
+        	stream.mark(0);
         //create source
         InputSource source = new InputSource(stream);
         
@@ -69,7 +67,9 @@ public class Parser {
         }catch(XPathExpressionException xpee){        	
         	xpee.printStackTrace();        
         }
+ 		
         return node;
+        
         }
 	
 	/**
@@ -78,9 +78,10 @@ public class Parser {
 	 * @param expression
 	 * @return
 	 */
-	public static NodeList evaluateNodeList(InputStream stream, String expression){
+	public static NodeList evaluateNodeList(InputStream stream, String expression) {
         NodeList liste = null;
         try{
+        	
         //create source
         InputSource source = new InputSource(stream);
         
@@ -96,7 +97,10 @@ public class Parser {
         }catch(XPathExpressionException xpee){
         xpee.printStackTrace();
         System.out.println("probleme dans le XPathExpression");
+        System.out.println(xpee.getCause().toString());
+        
         }
+   
         return liste;
         }
 
@@ -116,21 +120,8 @@ public class Parser {
 		FileXML = fileXML;
 	}
 
-	/**
-	 * function getUrl
-	 * @return
-	 */
-	public FileInputStream getUrl() {
-		return url;
-	}
 
-	/**
-	 * procedure setUrl
-	 * @param url
-	 */
-	public void setUrl(FileInputStream url) {
-		this.url = url;
-	}
+
 	
 	/**
 	 * function getRole
@@ -138,15 +129,25 @@ public class Parser {
 	 *  */
 	public ArrayList getRole() {
 		ArrayList<String> roleList = new ArrayList<String>();
-		NodeList nodel = evaluateNodeList(url,roleDescriptor);
+		NodeList nodel ;
 		Node node;
 		String role;
-		for(int i=0; i<nodel.getLength(); i++) {
-        	node = nodel.item(i);
-        	//System.out.println(node.getTextContent());
-	        role = node.getAttributes().getNamedItem("name").getNodeValue();
-	        roleList.add(role);
-		}		
+		
+		try {
+			FileInputStream url = new FileInputStream(FileXML);
+			nodel = evaluateNodeList(url,roleDescriptor);
+			for(int i=0; i<nodel.getLength(); i++) {
+	        	node = nodel.item(i);
+	        	//System.out.println(node.getTextContent());
+		        role = node.getAttributes().getNamedItem("name").getNodeValue();
+		        roleList.add(role);
+			}		
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		return roleList;
 	}
 	
@@ -157,15 +158,29 @@ public class Parser {
 	 *  */	
 	public ArrayList getPrimaryTaskByRole(String roleName) {
 		ArrayList<String> primaryTask = new ArrayList<String>();
-		NodeList nodel = evaluateNodeList(url, taskDescriptor);
+		// get the id with the parameter
 		Node node;
-		String task;
-		for(int i=0;i<nodel.getLength();i++){
-			node = nodel.item(i);
-			task = node.getAttributes().getNamedItem("name").getNodeValue();
-			primaryTask.add(task);
+		String req = "//BreakdownElement[@name='"+roleName+"']";
+		try {
+			FileInputStream url = new FileInputStream(FileXML);
+			node = evaluate(url, req);
+			String id = node.getAttributes().getNamedItem("id").getNodeValue();
+			
+			System.out.println(node.getAttributes().getNamedItem("id").getNodeValue());
+			
+			// request to find the task with the id
+			req = "//BreakdownElement[PerformedPrimarilyBy='"+id+"']";
+			url = new FileInputStream(FileXML);
+			
+			NodeList nodel = evaluateNodeList(url, req);
+			
+			for(int i=0;i<nodel.getLength();i++) {
+				primaryTask.add(nodel.item(i).getAttributes().getNamedItem("name").getNodeValue());
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
 		return primaryTask;
 	}
 
@@ -175,13 +190,19 @@ public class Parser {
 	 *  */
 	public ArrayList getTask() {
 		ArrayList<String> taskList = new ArrayList<String>();
-		NodeList nodel = evaluateNodeList(url, taskDescriptor);
-		Node node;
-		String task;
-		for(int i=0;i<nodel.getLength();i++){
-			node = nodel.item(i);
-			task = node.getAttributes().getNamedItem("name").getNodeValue();
-			taskList.add(task);
+		try {
+			FileInputStream url = new FileInputStream(FileXML);
+			NodeList nodel = evaluateNodeList(url, taskDescriptor);
+			Node node;
+			String task;
+			for(int i=0;i<nodel.getLength();i++){
+				node = nodel.item(i);
+				task = node.getAttributes().getNamedItem("name").getNodeValue();
+				taskList.add(task);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return taskList;
 	}

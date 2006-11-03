@@ -11,7 +11,9 @@ public class TestParser {
 		// TODO Auto-generated method stub
 		Parser p = Parser.getInstance();
 		//ArrayList role = p.getRole();
-		ArrayList task = p.getTask();
+		
+		//ArrayList task = p.getPrimaryTaskByRole("developer");
+		ArrayList task = p.getPrimaryTaskByRole("developer");
 		
 		for(int i=0;i<task.size();i++) {
 			//System.out.println(role.get(i));
