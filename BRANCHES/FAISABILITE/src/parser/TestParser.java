@@ -13,7 +13,7 @@ public class TestParser {
 		//ArrayList role = p.getRole();
 		
 		//ArrayList task = p.getPrimaryTaskByRole("developer");
-		p.getDescriptionByRole("project_manager");
+		p.getDescriptionByTask("demonstrate_architecture");
 		
 		/*for(int i=0;i<task.size();i++) {
 			//System.out.println(role.get(i));

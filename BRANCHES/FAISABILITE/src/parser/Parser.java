@@ -230,4 +230,28 @@ public class Parser {
 		}
 		return desc;
 	}
+	
+	/**
+	 * function getDescriptionByTask
+	 * @return Arraylist
+	 * @param String roleName
+	 *  */	
+	public String getDescriptionByTask(String taskName) {
+		ArrayList<String> primaryTask = new ArrayList<String>();
+		// get the id with the parameter
+		Node node;
+		String desc = "";
+		String req = "//ContentElement[@name='"+taskName+"']/Presentation/MainDescription";
+		try {
+			FileInputStream url = new FileInputStream(FileXML);
+			node = evaluate(url, req);
+			 desc = node.getTextContent();
+			System.out.println(desc);
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return desc;
+	}
 }
