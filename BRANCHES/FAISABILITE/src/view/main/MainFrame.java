@@ -6,8 +6,14 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowStateListener;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -44,11 +50,25 @@ public class MainFrame extends JFrame{
        dimFrame = Toolkit.getDefaultToolkit().getScreenSize();
        tp = new TreePanel();
        this.add(tp,BorderLayout.CENTER);
-       this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        this.add(new InfoPanel(),BorderLayout.SOUTH);
-			
+       this.addComponentListener(new ComponentListener(){
+		public void componentHidden(ComponentEvent e) {
+			// TODO Auto-generated method stub	
+		}
+		public void componentMoved(ComponentEvent e) {
+			Point p = getHTMLLocation();
+			HTMLViewer.getInstance(p);			
+		}
+		public void componentResized(ComponentEvent e) {
+			Point p = getHTMLLocation();
+			HTMLViewer.getInstance(p);		
+		}
+		public void componentShown(ComponentEvent e) {
+			// TODO Auto-generated method stub	
+		}
+       });
 	}
-
 	/**
 	 * This method initializes menu	
 	 * 	
@@ -87,7 +107,6 @@ public class MainFrame extends JFrame{
 					System.out.println(myHome);
 					JFileChooser opening = new JFileChooser(myHome);
 					opening.setFileFilter(new myFileFilter());
-					opening.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES );
 					if (opening.showOpenDialog(MainFrame.this) == JFileChooser.CANCEL_OPTION){
 						System.out.println("cancel");
 					}
@@ -145,7 +164,10 @@ public class MainFrame extends JFrame{
 	public Dimension getDimFrame() {
 		return dimFrame;
 	}
-		
+	
+	public Point getHTMLLocation(){
+		return new Point(MainFrame.this.getLocation().x+MainFrame.this.getWidth(),MainFrame.this.getLocation().y);
+	}
 	private class myFileFilter extends javax.swing.filechooser.FileFilter{
 
 		@Override
@@ -161,7 +183,6 @@ public class MainFrame extends JFrame{
 	}
 	
 	private JXTree getTreeWithTasks(String role){
-		;
 		//ArrayList a = Parser.getInstance().getTask();
 		
 		ArrayList a = new ArrayList ();
@@ -179,7 +200,7 @@ public class MainFrame extends JFrame{
 			    	 TreePath path =
 				         t.getPathForLocation(evt.getX(), evt.getY()); 
 				      if (path != null) { 
-				    	Point p = new Point(MainFrame.this.getLocation().x+MainFrame.this.getWidth(),MainFrame.this.getLocation().y);
+				    	Point p = getHTMLLocation();
 						HTMLViewer h = HTMLViewer.getInstance(p);
 						h.setMessage(path.getLastPathComponent().toString());
 						h.setVisible(true);
