@@ -20,6 +20,13 @@ import javax.swing.BorderFactory;
 import javax.swing.border.BevelBorder;
 
 import parser.Parser;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import javax.swing.BoxLayout;
+import java.awt.event.KeyEvent;
+import javax.swing.border.EtchedBorder;
+import java.awt.SystemColor;
+import java.awt.Font;
 
 public class DialogRoles extends JDialog {
 
@@ -45,6 +52,12 @@ public class DialogRoles extends JDialog {
 	private JScrollPane jScrollPane = null;
 
 	private JEditorPane roleDesc = null;
+
+	private JPanel north = null;
+
+	private JPanel center = null;
+
+	private JPanel south = null;
 
 	/**
 	 * @param owner
@@ -76,15 +89,14 @@ public class DialogRoles extends JDialog {
 	 * @return javax.swing.JPanel
 	 */
 	private JPanel getJContentPane() {
-		if (jContentPane == null) {			selectRole = new JLabel();
+		if (jContentPane == null) {			
+			selectRole = new JLabel();
 			selectRole.setText("Please select your Role");
-			selectRole.setBounds(new Rectangle(0, 0, 324, 16));
 			jContentPane = new JPanel();
-			jContentPane.setLayout(null);
-			jContentPane.add(selectRole, null);
-			jContentPane.add(getListeRole(), null);
-			jContentPane.add(getJPanel(), null);
-			jContentPane.add(getJScrollPane(), null);
+			jContentPane.setLayout(new BorderLayout());
+			jContentPane.add(getNorth(), BorderLayout.NORTH);
+			jContentPane.add(getCenter(), BorderLayout.CENTER);
+			jContentPane.add(getSouth(), BorderLayout.SOUTH);
 		}
 		return jContentPane;
 	}
@@ -98,7 +110,6 @@ public class DialogRoles extends JDialog {
 		if (listeRole == null) {
 			listeRole = new JComboBox();
 			listeRole.setPreferredSize(new Dimension(31, 20));
-			listeRole.setBounds(new Rectangle(0, 16, 324, 32));
 			listeRole.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					DialogRoles.this.setDescription(Parser.getInstance().getDescriptionByRole(listeRole.getSelectedItem().toString()));
@@ -119,9 +130,8 @@ public class DialogRoles extends JDialog {
 			gridBagConstraints1.gridx = 0;
 			gridBagConstraints1.gridy = 0;
 			jPanel = new JPanel();
-			jPanel.setLayout(null);
+			jPanel.setLayout(new BoxLayout(getJPanel(), BoxLayout.X_AXIS));
 			jPanel.setPreferredSize(new Dimension(68, 30));
-			jPanel.setBounds(new Rectangle(1, 288, 324, 30));
 			jPanel.add(getCancel(), null);
 			jPanel.add(getOK(), null);
 		}
@@ -137,7 +147,7 @@ public class DialogRoles extends JDialog {
 		if (cancel == null) {
 			cancel = new JButton();
 			cancel.setPreferredSize(new Dimension(80, 20));
-			cancel.setBounds(new Rectangle(149, 8, 80, 20));
+			cancel.setMnemonic(KeyEvent.VK_UNDEFINED);
 			cancel.setText("Cancel");
 			cancel.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -159,7 +169,6 @@ public class DialogRoles extends JDialog {
 			OK = new JButton();
 			OK.setPreferredSize(new Dimension(80, 20));
 			OK.setHorizontalAlignment(SwingConstants.CENTER);
-			OK.setBounds(new Rectangle(239, 8, 80, 20));
 			OK.setText("OK");
 			OK.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -190,8 +199,7 @@ public class DialogRoles extends JDialog {
 	private JScrollPane getJScrollPane() {
 		if (jScrollPane == null) {
 			jScrollPane = new JScrollPane();
-			jScrollPane.setBounds(new Rectangle(6, 60, 311, 222));
-			jScrollPane.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+			jScrollPane.setViewportBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 			jScrollPane.setViewportView(getRoleDesc());
 		}
 		return jScrollPane;
@@ -207,12 +215,58 @@ public class DialogRoles extends JDialog {
 			roleDesc = new JEditorPane();
 			roleDesc.setEditable(false);
 			roleDesc.setContentType("text/html");
-			roleDesc.setSize(new Dimension(285, 56));
+			roleDesc.setBackground(SystemColor.control);
 		}
 		return roleDesc;
 	}
 	
 	public void setDescription(String message){
 		roleDesc.setText(message);
+	}
+
+	/**
+	 * This method initializes north	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */
+	private JPanel getNorth() {
+		if (north == null) {
+			BorderLayout borderLayout1 = new BorderLayout();
+			borderLayout1.setVgap(1);
+			north = new JPanel();
+			north.setLayout(borderLayout1);
+			north.add(selectRole, BorderLayout.NORTH);
+			north.add(getListeRole(), BorderLayout.SOUTH);
+		}
+		return north;
+	}
+
+	/**
+	 * This method initializes center	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */
+	private JPanel getCenter() {
+		if (center == null) {
+			BorderLayout borderLayout = new BorderLayout();
+			center = new JPanel();
+			center.setLayout(borderLayout);
+			center.add(getJScrollPane(), BorderLayout.CENTER);
+		}
+		return center;
+	}
+
+	/**
+	 * This method initializes south	
+	 * 	
+	 * @return javax.swing.JPanel	
+	 */
+	private JPanel getSouth() {
+		if (south == null) {
+			south = new JPanel();
+			south.setLayout(new BorderLayout());
+			south.add(getJPanel(), BorderLayout.NORTH);
+		}
+		return south;
 	}
 }  //  @jve:decl-index=0:visual-constraint="10,10"

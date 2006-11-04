@@ -188,7 +188,7 @@ public class MainFrame extends JFrame{
 		//ArrayList a = Parser.getInstance().getTask();
 		
 		ArrayList a = Parser.getInstance().getPrimaryTaskByRole(role);
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root Tasks" , true ) ;
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode(role , true ) ;
 		for (Iterator i = a.iterator() ; i.hasNext();){
 			DefaultMutableTreeNode tmp = new DefaultMutableTreeNode(i.next() , true );
 			root.add(tmp) ;
@@ -199,7 +199,7 @@ public class MainFrame extends JFrame{
 			     if (evt.getClickCount() == 2){
 			    	 TreePath path =
 				         t.getPathForLocation(evt.getX(), evt.getY()); 
-				      if (path != null && ((DefaultMutableTreeNode)path.getLastPathComponent()).isLeaf()){ 
+				      if (path != null && ((DefaultMutableTreeNode)path.getLastPathComponent()).isLeaf() && ((DefaultMutableTreeNode)path.getLastPathComponent()).getParent() != null){ 
 				    	Point p = getHTMLLocation();
 						HTMLViewer h = HTMLViewer.getInstance(p);
 						h.setMessage(Parser.getInstance().getDescriptionByTask(path.getLastPathComponent().toString()));
