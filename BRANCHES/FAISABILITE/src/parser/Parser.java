@@ -212,11 +212,11 @@ public class Parser {
 	 * @return Arraylist
 	 * @param String roleName
 	 *  */	
-	public String getDescriptionByRole(String roleName) {
-		ArrayList<String> primaryTask = new ArrayList<String>();
-		// get the id with the parameter
+	public String getDescriptionByRole(String roleName) {		
 		Node node;
 		String desc = "";
+		
+		// get the main description
 		String req = "//ContentElement[@name='"+roleName+"']/Presentation/MainDescription";
 		try {
 			FileInputStream url = new FileInputStream(FileXML);
@@ -236,18 +236,28 @@ public class Parser {
 	 * @return Arraylist
 	 * @param String roleName
 	 *  */	
-	public String getDescriptionByTask(String taskName) {
-		ArrayList<String> primaryTask = new ArrayList<String>();
-		// get the id with the parameter
+	public String getDescriptionByTask(String taskName) {		
 		Node node;
+		NodeList nodel;
 		String desc = "";
+		
+		// get the main description
 		String req = "//ContentElement[@name='"+taskName+"']/Presentation/MainDescription";
 		try {
 			FileInputStream url = new FileInputStream(FileXML);
 			node = evaluate(url, req);
-			 desc = node.getTextContent();
-			System.out.println(desc);
+			desc = node.getTextContent();
+			System.out.println(desc);	
 			
+			// get the descriptions sections
+			req = "//ContentElement[@name='"+taskName+"']/Presentation/Section/Description";
+			url = new FileInputStream(FileXML);
+			nodel = evaluateNodeList(url, req);
+			for (int i=0; i<nodel.getLength(); i++) {
+				desc += nodel.item(i).getTextContent();
+			}
+			System.out.println(desc);
+					
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
