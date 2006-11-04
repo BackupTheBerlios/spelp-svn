@@ -14,7 +14,7 @@ public class TestParser {
 		
 		//ArrayList task = p.getPrimaryTaskByRole("developer");
 		p.getDescriptionByTask("run_developer_tests");
-		
+		p.getMethodName();
 		/*for(int i=0;i<task.size();i++) {
 			//System.out.println(role.get(i));
 			System.out.println("	"+task.get(i));

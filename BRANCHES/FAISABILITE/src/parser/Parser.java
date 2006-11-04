@@ -208,6 +208,29 @@ public class Parser {
 	}
 	
 	/**
+	 * function getMethodName
+	 * @return String 
+	 */
+	public String getMethodName(){
+		Node node;
+		String desc = "";
+		
+		// get the main description
+		String req = "//MethodPlugin";
+		try {
+			FileInputStream url = new FileInputStream(FileXML);
+			node = evaluate(url, req);
+			desc = node.getAttributes().getNamedItem("name").getNodeValue();
+			System.out.println(desc);
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return desc;
+	}
+	
+	/**
 	 * function getDescriptionByRole
 	 * @return Arraylist
 	 * @param String roleName

@@ -20,14 +20,18 @@ import java.util.Iterator;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import org.jdesktop.swingx.JXTaskPane;
+import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.jdesktop.swingx.JXTree;
 
 import parser.Parser;
@@ -39,6 +43,7 @@ public class MainFrame extends JFrame{
 	private JMenuItem itemFichier = null ;
 	private JMenuItem itemExit = null ;
 	private TreePanel tp = null ;
+	private InfoPanel southpanel = null ;
 	public static Dimension dimFrame ;
 	public static File XML = null ;
 	/**
@@ -51,7 +56,8 @@ public class MainFrame extends JFrame{
        tp = new TreePanel();
        this.add(tp,BorderLayout.CENTER);
        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       this.add(new InfoPanel(),BorderLayout.SOUTH);
+       
+       this.add(getSouthPanel(),BorderLayout.SOUTH);
        
        // ajout listener deplacement
        this.addComponentListener(new ComponentListener(){
@@ -71,6 +77,15 @@ public class MainFrame extends JFrame{
 		}
        });
 	}
+	
+	private InfoPanel getSouthPanel() {
+		if (southpanel == null){
+			southpanel =  new InfoPanel();
+				
+		}
+		return  southpanel;
+	}
+	
 	/**
 	 * This method initializes menu	
 	 * 	
@@ -119,7 +134,12 @@ public class MainFrame extends JFrame{
 						DialogRoles d = new DialogRoles(MainFrame.this,v);
 						if (d.getChoix() == DialogRoles.CHOIX_OK){
 							MainFrame.this.tp.putTree(MainFrame.this.getTreeWithTasks(d.getRole()));
+							southpanel.setInfo(
+									"<html>Process used : " + Parser.getInstance().getMethodName() + "<br>" +
+									"You are " + d.getRole() +"</html>"
+							);
 						}
+						
 						//d.dispose();
 						
 					}
@@ -149,17 +169,15 @@ public class MainFrame extends JFrame{
 	 */
 	public static void main(String[] args) {
 		MainFrame f = new MainFrame();
-		
 	}
 	
 	public MainFrame () {
 		super("SPELP : Process Execution Assistant");
 		this.setLayout(new BorderLayout());
-		
 		this.setSize(Toolkit.getDefaultToolkit().getScreenSize().width/4, Toolkit.getDefaultToolkit().getScreenSize().height/3);
 		this.setLocation(0,0);
-		
 		initialize();
+		
 		this.setVisible(true);
 	}
 
@@ -186,7 +204,6 @@ public class MainFrame extends JFrame{
 	
 	private JXTree getTreeWithTasks(String role){
 		//ArrayList a = Parser.getInstance().getTask();
-		
 		ArrayList a = Parser.getInstance().getPrimaryTaskByRole(role);
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(role , true ) ;
 		for (Iterator i = a.iterator() ; i.hasNext();){
