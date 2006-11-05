@@ -273,7 +273,9 @@ public class Parser {
 		try {
 			FileInputStream url = new FileInputStream(FileXML);
 			node = evaluate(url, req);
-			desc = node.getTextContent();
+			if (node!=null) {
+				desc = node.getTextContent();
+			}			
 			System.out.println(desc);	
 			
 			// get the descriptions sections
