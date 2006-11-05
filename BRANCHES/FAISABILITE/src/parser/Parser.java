@@ -119,9 +119,6 @@ public class Parser {
 	public static void setFileXML(String fileXML) {
 		FileXML = fileXML;
 	}
-
-
-
 	
 	/**
 	 * function getRole
@@ -132,23 +129,30 @@ public class Parser {
 		NodeList nodel ;
 		Node node;
 		String role;
+		String o; /* for the occurence */
+		ArrayList<String> rolelistTemp = new ArrayList<String>(); /* for the occurence */
 		
 		try {
 			FileInputStream url = new FileInputStream(FileXML);
 			nodel = evaluateNodeList(url,roleDescriptor);
 			for(int i=0; i<nodel.getLength(); i++) {
 	        	node = nodel.item(i);
-	        	//System.out.println(node.getTextContent());
-		        role = node.getAttributes().getNamedItem("name").getNodeValue();
+	            role = node.getAttributes().getNamedItem("name").getNodeValue();
 		        roleList.add(role);
 			}		
+			/* delete the role occurence */
+		    for (int i=0; i<roleList.size(); i++) {
+		    	o = roleList.get(i);
+		    	if (!rolelistTemp.contains(o))
+		    		rolelistTemp.add(o);
+		    }
+		    roleList = null; 
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		return roleList;
+		return rolelistTemp;		
 	}
 	
 	/**
@@ -186,7 +190,7 @@ public class Parser {
 
 	/**
 	 * function getTask
-	 * @return Arraylist
+	 * @return Arraylist of the all task
 	 *  */
 	public ArrayList getTask() {
 		ArrayList<String> taskList = new ArrayList<String>();
