@@ -241,14 +241,20 @@ public class Parser {
 	 *  */	
 	public String getDescriptionByRole(String roleName) {		
 		Node node;
-		String desc = "";
+		String desc = "";		
 		
-		// get the main description
-		String req = "//ContentElement[@name='"+roleName+"']/Presentation/MainDescription";
 		try {
+			// get the brief bescription
+			String req = "//ContentElement[@name='"+roleName+"']";
 			FileInputStream url = new FileInputStream(FileXML);
 			node = evaluate(url, req);
-			 desc = node.getTextContent();
+			if (node!=null) desc += node.getAttributes().getNamedItem("briefDescription").getNodeValue();
+			
+			// get the main description
+			req = "//ContentElement[@name='"+roleName+"']/Presentation/MainDescription";
+			url = new FileInputStream(FileXML);
+			node = evaluate(url, req);
+			if (node!=null) desc += node.getTextContent();
 			System.out.println(desc);
 			
 		} catch (FileNotFoundException e) {
@@ -273,9 +279,7 @@ public class Parser {
 		try {
 			FileInputStream url = new FileInputStream(FileXML);
 			node = evaluate(url, req);
-			if (node!=null) {
-				desc = node.getTextContent();
-			}			
+			if (node!=null)	desc = node.getTextContent();			
 			System.out.println(desc);	
 			
 			// get the descriptions sections
