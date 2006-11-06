@@ -6,11 +6,14 @@ import java.awt.Toolkit;
 
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 
 public class HTMLViewer extends JFrame {
 	private static HTMLViewer instance = null;
 	private String HTMLCode; // Le code HTML affiché 
-
+	
+	private JScrollPane myScrollPane;
 	private JEditorPane myEditorPane;
 	
 	private HTMLViewer(Point p) {
@@ -28,7 +31,9 @@ public class HTMLViewer extends JFrame {
 		this.myEditorPane.setContentType("text/html");
 		this.myEditorPane.setFocusable(false);
 		
-		this.getContentPane().add(this.myEditorPane);
+		this.myScrollPane = new JScrollPane(this.myEditorPane);
+		
+		this.getContentPane().add(this.myScrollPane);
 	}
 	
 	/**
@@ -39,6 +44,9 @@ public class HTMLViewer extends JFrame {
 	public void setMessage(String message) {
 		this.HTMLCode = message;
 		this.myEditorPane.setText(this.HTMLCode);
+		JScrollBar scroll = this.myScrollPane.getVerticalScrollBar();
+		System.out.println(scroll.getValue());
+		scroll.setValue(0);
 	}
 	
 	
