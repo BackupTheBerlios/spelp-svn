@@ -50,6 +50,12 @@ public class MainFrame extends JFrame{
 	 * This method initializes this
 	 * 
 	 */
+	
+	private void moveHTML(){
+		Point p = getHTMLLocation();
+		HTMLViewer.getInstance(p);
+	}
+	
 	private void initialize() {
        this.setJMenuBar(getMenu());
        dimFrame = Toolkit.getDefaultToolkit().getScreenSize();
@@ -65,12 +71,10 @@ public class MainFrame extends JFrame{
 			// TODO Auto-generated method stub	
 		}
 		public void componentMoved(ComponentEvent e) {
-			Point p = getHTMLLocation();
-			HTMLViewer.getInstance(p);			
+			moveHTML();
 		}
 		public void componentResized(ComponentEvent e) {
-			Point p = getHTMLLocation();
-			HTMLViewer.getInstance(p);		
+			moveHTML() ;		
 		}
 		public void componentShown(ComponentEvent e) {
 			// TODO Auto-generated method stub	
@@ -186,7 +190,7 @@ public class MainFrame extends JFrame{
 	}
 	
 	public Point getHTMLLocation(){
-		return new Point(MainFrame.this.getLocation().x+MainFrame.this.getWidth(),MainFrame.this.getLocation().y);
+		return new Point(this.getLocation().x+this.getWidth(),this.getLocation().y);
 	}
 	private class myFileFilter extends javax.swing.filechooser.FileFilter{
 

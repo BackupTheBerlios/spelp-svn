@@ -3,6 +3,8 @@ package view.htmlViewer;
 import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
@@ -11,14 +13,12 @@ import javax.swing.JScrollPane;
 
 public class HTMLViewer extends JFrame {
 	private static HTMLViewer instance = null;
-	private String HTMLCode; // Le code HTML affiché 
-	
+	private String HTMLCode; // Le code HTML affiché
 	private JScrollPane myScrollPane;
 	private JEditorPane myEditorPane;
 	
 	private HTMLViewer(Point p) {
 		super("HTMLViewer");
-		
 		this.setLayout(new BorderLayout());
 		
 		this.setSize(Toolkit.getDefaultToolkit().getScreenSize().width / 2, Toolkit.getDefaultToolkit().getScreenSize().height / 2);
@@ -32,7 +32,6 @@ public class HTMLViewer extends JFrame {
 		this.myEditorPane.setFocusable(false);
 		
 		this.myScrollPane = new JScrollPane(this.myEditorPane);
-		
 		this.getContentPane().add(this.myScrollPane);
 	}
 	
@@ -59,7 +58,7 @@ public class HTMLViewer extends JFrame {
 		if (HTMLViewer.instance == null){
 			HTMLViewer.instance = new HTMLViewer(p);
 		}
-		else{
+		else if (p != null) {
 			HTMLViewer.instance.setLocation(p);
 		}
 		
