@@ -2,9 +2,9 @@ package parser;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
@@ -164,22 +164,35 @@ public class Parser {
 		ArrayList<String> primaryTask = new ArrayList<String>();
 		// get the id with the parameter
 		Node node;
+		List<String> ids = new ArrayList<String>();
+		
 		String req = "//BreakdownElement[@name='"+roleName+"']";
-		try {
+		try {			
 			FileInputStream url = new FileInputStream(FileXML);
-			node = evaluate(url, req);
-			String id = node.getAttributes().getNamedItem("id").getNodeValue();
+			NodeList nodel = evaluateNodeList(url, req);
+			for(int i=0;i<nodel.getLength();i++) {
+				node = nodel.item(i);
+				System.out.println(node.getAttributes().getNamedItem("id").getNodeValue());
+				ids.add(node.getAttributes().getNamedItem("id").getNodeValue());
+			}
 			
-			System.out.println(node.getAttributes().getNamedItem("id").getNodeValue());
+		
 			
 			// request to find the task with the id
-			req = "//BreakdownElement[PerformedPrimarilyBy='"+id+"']";
+			req = "//BreakdownElement[PerformedPrimarilyBy='"+ids.get(0)+"'";
+			for(int i=1;i<ids.size();i++) {
+				req += " or PerformedPrimarilyBy='"+ids.get(i)+"'";
+			}
+			req += "]";
+				
 			url = new FileInputStream(FileXML);
-			
-			NodeList nodel = evaluateNodeList(url, req);
+			System.out.println(req);
+			nodel = evaluateNodeList(url, req);
 			
 			for(int i=0;i<nodel.getLength();i++) {
-				primaryTask.add(nodel.item(i).getAttributes().getNamedItem("name").getNodeValue());
+				node = nodel.item(i);
+				System.out.println(node.getAttributes().getNamedItem("name").getNodeValue());
+				primaryTask.add(node.getAttributes().getNamedItem("name").getNodeValue());
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

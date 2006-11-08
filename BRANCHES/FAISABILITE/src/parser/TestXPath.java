@@ -61,8 +61,8 @@ public class TestXPath {
 	public static void main (String args[]){
 		FileInputStream url;
 		try {
-			url = new FileInputStream("toyton.xml");
-			String expression = "//BreakdownElement[@*[namespace-uri() and local-name()='type']='uma:RoleDescriptor']";
+			url = new FileInputStream("scrum.xml");
+			String expression = "//BreakdownElement[PerformedPrimarilyBy='_uVjbMABVEdu3o4yroaI-tA']";
 	        NodeList nodel = evaluerListeNoeuds(url,expression);
 	        Node node;
 	        for(int i=0; i<nodel.getLength(); i++) {
