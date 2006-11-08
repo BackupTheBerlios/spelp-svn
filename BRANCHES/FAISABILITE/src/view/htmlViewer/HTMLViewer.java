@@ -22,7 +22,7 @@ public class HTMLViewer extends JFrame {
 		this.setLayout(new BorderLayout());
 		
 		this.setSize(Toolkit.getDefaultToolkit().getScreenSize().width / 2, Toolkit.getDefaultToolkit().getScreenSize().height / 2);
-		this.setLocation(p);
+		if (p!=null) this.setLocation(p);
 		
 		this.myEditorPane = new JEditorPane();
 		this.myEditorPane.setVisible(true);
