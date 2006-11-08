@@ -126,10 +126,15 @@ public class MainFrame extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					String myHome = "." + File.separator ;
 					System.out.println(myHome);
+					boolean wasHTMLViewerShown;
+					wasHTMLViewerShown = HTMLViewer.getInstance(null).isVisible();
+					HTMLViewer.getInstance(null).setVisible(false);
 					JFileChooser opening = new JFileChooser(myHome);
 					opening.setFileFilter(new myFileFilter());
 					if (opening.showOpenDialog(MainFrame.this) == JFileChooser.CANCEL_OPTION){
 						System.out.println("cancel");
+						if (wasHTMLViewerShown)
+							HTMLViewer.getInstance(null).setVisible(true);
 					}
 					else {
 						 

@@ -222,6 +222,7 @@ public class DialogRoles extends JDialog {
 	
 	public void setDescription(String message){
 		roleDesc.setText(message);
+		roleDesc.setCaretPosition(1); // revient au debut du texte
 	}
 
 	/**

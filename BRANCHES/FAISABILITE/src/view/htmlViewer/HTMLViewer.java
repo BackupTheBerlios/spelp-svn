@@ -43,9 +43,8 @@ public class HTMLViewer extends JFrame {
 	public void setMessage(String message) {
 		this.HTMLCode = message;
 		this.myEditorPane.setText(this.HTMLCode);
-		JScrollBar scroll = this.myScrollPane.getVerticalScrollBar();
-		System.out.println(scroll.getValue());
-		scroll.setValue(0);
+		
+		this.myEditorPane.setCaretPosition(1); // revient au debut du texte
 	}
 	
 	
