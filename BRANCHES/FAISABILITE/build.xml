@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<project name="SPELP" default="view.main.MainFrame" basedir=".">
+	<!--fichier de propriété de ant tel que le build number-->
+	<description>
+		Génération de l'application SPELP
+	</description>
+
+	<!-- Déclaration des variables répertoires -->
+	<property name="src" location="src/" />
+	<property name="bin" location="bin/" />
+	<property name="build" location="build/" />
+	
+	<!-- Déclaration des variables librairie -->
+	<property name="lib_swingx-2006_10_27" location="lib/swingx-2006_10_27.jar" />
+	<property name="lib_activation" location="lib/activation.jar" />
+
+	<!-- Compilation de SPELP -->
+	<target name="SPELP" depends="" description="compile les sources de SPELP ">
+		<javac srcdir="${src}" destdir="${bin}">
+			<classpath>
+				<pathelement path="${java.class.path}" />
+				<pathelement location="${lib_swingx-2006_10_27}" />
+				<pathelement location="${lib_activation}" />
+			</classpath>
+		</javac>
+	</target>
+	<!--creation d'un zip du build actuel-->
+	<!--  <target name="javadoc" description="Créer la javadoc de l'application " depends="">
+
+
+	</target>-->
+	<!--jar-->
+	<target name="jarSPELP" description="Construit le jar de SPELP" depends="SPELP">
+		<!-- 	<buildnumber file="antwizard.properties" />-->
+		<!--Creation des repertoire pour la build courante-->
+		<!--Variable ou générer la build-->
+		<!-- property name="curbuild" location="${build}/SPELP_${build.number}" />-->
+		<property name="curbuild" location="${build}/SPELP"/>
+		<mkdir dir="${build}" />
+		<mkdir dir="${curbuild}" />
+		<mkdir dir="${curbuild}/lib" />
+		<!-- copie des fichier librairie -->
+		<copy file="${lib_swingx-2006_10_27}" todir="${curbuild}/lib/" />
+		<copy file="${lib_activation}" todir="${curbuild}/lib/" />
+		<jar jarfile="${curbuild}/SPELP.jar" basedir="${bin}" > <!-- excludes="test/** resources/*.** resources/exportpabe/**">-->
+			<manifest>
+				<!--<attribute name="Built-By" value="${user.name}" />-->
+				<attribute name="Main-Class" value="view.main.MainFrame" />
+				<attribute name="Class-Path" value="${lib_swingx-2006_10_27} ${lib_activation}" />
+			</manifest>
+		</jar>
+	</target>
+	
+
+	<!--creation d'un zip du build actuel-->
+	<!--  <target name="zipWindows" description="Construit le jar et en fait un zip avec les libraire" depends="jarWizardWin">
+		<zip destfile="${build}/SPELP.zip" basedir="${curbuild}/" />
+
+	</target>
+	-->
+</project>
