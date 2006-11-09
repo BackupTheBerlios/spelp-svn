@@ -155,12 +155,27 @@ public class Parser {
 		return rolelistTemp;		
 	}
 	
+	public String getPresentationNameByName (String elementName) {
+		String presentationName = "";
+		String req = "//*[@name='"+elementName+"']";
+		try {			
+			FileInputStream url = new FileInputStream(FileXML);
+			Node node = evaluate(url, req);
+			presentationName = node.getAttributes().getNamedItem("presentationName").getNodeValue();
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return presentationName;
+	}
+	
 	/**
 	 * function getPrimaryTaskByRole
 	 * @return Arraylist
 	 * @param String roleName
 	 *  */	
-	public ArrayList getPrimaryTaskByRole(String roleName) {
+	public ArrayList<String> getPrimaryTaskByRole(String roleName) {
 		ArrayList<String> primaryTask = new ArrayList<String>();
 		// get the id with the parameter
 		Node node;
@@ -208,7 +223,7 @@ public class Parser {
 	 * function getTask
 	 * @return Arraylist of the all task
 	 *  */
-	public ArrayList getTask() {
+	public ArrayList<String> getTask() {
 		ArrayList<String> taskList = new ArrayList<String>();
 		try {
 			FileInputStream url = new FileInputStream(FileXML);

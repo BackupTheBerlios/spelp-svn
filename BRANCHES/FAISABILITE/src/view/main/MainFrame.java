@@ -213,9 +213,9 @@ public class MainFrame extends JFrame{
 	
 	private JXTree getTreeWithTasks(String role){
 		//ArrayList a = Parser.getInstance().getTask();
-		ArrayList a = Parser.getInstance().getPrimaryTaskByRole(role);
+		ArrayList<String> a = Parser.getInstance().getPrimaryTaskByRole(role);
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(role , true ) ;
-		for (Iterator i = a.iterator() ; i.hasNext();){
+		for (Iterator<String> i = a.iterator() ; i.hasNext();){
 			DefaultMutableTreeNode tmp = new DefaultMutableTreeNode(i.next() , true );
 			root.add(tmp) ;
 		}

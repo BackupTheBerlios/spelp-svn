@@ -9,17 +9,16 @@ public class TestParser {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Parser p = Parser.getInstance();
 		//ArrayList role = p.getRole();
-		
+		Parser.setFileXML("scrum.xml");
 		//ArrayList task = p.getPrimaryTaskByRole("developer");
-		p.getDescriptionByTask("run_developer_tests");
-		p.getMethodName();
+		Parser.getInstance().getDescriptionByTask("run_developer_tests");
+		Parser.getInstance().getMethodName();
 		/*for(int i=0;i<task.size();i++) {
 			//System.out.println(role.get(i));
 			System.out.println("	"+task.get(i));
 		}*/
-		
+		System.out.println(Parser.getInstance().getPresentationNameByName("Do the planified tasks"));
 	}
 
 }

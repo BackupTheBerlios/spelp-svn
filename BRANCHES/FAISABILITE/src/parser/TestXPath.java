@@ -31,6 +31,8 @@ public class TestXPath {
         XPathExpression exp = xpath.compile(expression);
         node = (Node)exp.evaluate(source,XPathConstants.NODE);
         
+     
+        
         }catch(XPathExpressionException xpee){
         xpee.printStackTrace();
         }
