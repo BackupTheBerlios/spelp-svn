@@ -192,7 +192,10 @@ public class Parser {
 			for(int i=0;i<nodel.getLength();i++) {
 				node = nodel.item(i);
 				System.out.println(node.getAttributes().getNamedItem("name").getNodeValue());
-				primaryTask.add(node.getAttributes().getNamedItem("name").getNodeValue());
+				// ajout de l'element s'il n'existe pas dans la collection
+				if (! primaryTask.contains(node.getAttributes().getNamedItem("name").getNodeValue())){
+					primaryTask.add(node.getAttributes().getNamedItem("name").getNodeValue());
+				}
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
