@@ -62,7 +62,7 @@ public class DialogRoles extends JDialog {
 	/**
 	 * @param owner
 	 */
-	public DialogRoles(Frame owner, Collection<String> listRoles) {
+	public DialogRoles(Frame owner, Collection<MyModelElement> listRoles) {
 		super(owner,true);
 		initialize();
 		for (Iterator i = listRoles.iterator();i.hasNext();){
@@ -112,7 +112,7 @@ public class DialogRoles extends JDialog {
 			listeRole.setPreferredSize(new Dimension(31, 20));
 			listeRole.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
-					DialogRoles.this.setDescription(Parser.getInstance().getDescriptionByRole(listeRole.getSelectedItem().toString()));
+					DialogRoles.this.setDescription(Parser.getInstance().getDescriptionByRole(((MyModelElement)listeRole.getSelectedItem()).getRealName()));
 				}
 			});
 		}
@@ -185,10 +185,16 @@ public class DialogRoles extends JDialog {
 		
 	}
 	
+	public MyModelElement getModelElement(){
+		return ((MyModelElement)listeRole.getSelectedItem());
+	}
 	
+	public String getRealRole(){
+		return ((MyModelElement)listeRole.getSelectedItem()).getRealName();
+	}
 	
 	public String getRole(){
-		return ((String)listeRole.getSelectedItem());
+		return ((MyModelElement)listeRole.getSelectedItem()).toString();
 	}
 
 	/**

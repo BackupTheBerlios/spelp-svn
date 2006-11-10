@@ -140,9 +140,14 @@ public class MainFrame extends JFrame{
 						 
 						Parser.getInstance().setFileXML(opening.getSelectedFile().toString());
 						ArrayList<String> v = Parser.getInstance().getRole();
-						DialogRoles d = new DialogRoles(MainFrame.this,v);
+						ArrayList<MyModelElement> listRoles = new ArrayList();
+						for(int i = 0 ; i < v.size() ; i++){
+							listRoles.add(new MyModelElement(v.get(i)));
+						}
+						
+						DialogRoles d = new DialogRoles(MainFrame.this,listRoles);
 						if (d.getChoix() == DialogRoles.CHOIX_OK){
-							MainFrame.this.tp.putTree(MainFrame.this.getTreeWithTasks(d.getRole()));
+							MainFrame.this.tp.putTree(MainFrame.this.getTreeWithTasks(d.getModelElement()));
 							southpanel.setInfo(
 									"<html>Process used : " + Parser.getInstance().getMethodName() + "<br>" +
 									"You are " + d.getRole() +"</html>"
@@ -211,12 +216,12 @@ public class MainFrame extends JFrame{
 		}
 	}
 	
-	private JXTree getTreeWithTasks(String role){
+	private JXTree getTreeWithTasks(MyModelElement role){
 		//ArrayList a = Parser.getInstance().getTask();
-		ArrayList<String> a = Parser.getInstance().getPrimaryTaskByRole(role);
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode(role , true ) ;
+		ArrayList<String> a = Parser.getInstance().getPrimaryTaskByRole(role.getRealName());
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode(role.toString() , true ) ;
 		for (Iterator<String> i = a.iterator() ; i.hasNext();){
-			MyTask aTask = new MyTask (i.next());
+			MyModelElement aTask = new MyModelElement (i.next());
 			DefaultMutableTreeNode tmp = new DefaultMutableTreeNode(aTask, true );
 			
 			root.add(tmp) ;
@@ -230,7 +235,7 @@ public class MainFrame extends JFrame{
 				      if (path != null && ((DefaultMutableTreeNode)path.getLastPathComponent()).isLeaf() && ((DefaultMutableTreeNode)path.getLastPathComponent()).getParent() != null){ 
 				    	Point p = getHTMLLocation();
 						HTMLViewer h = HTMLViewer.getInstance(p);
-						MyTask aTask = ((MyTask)((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject());
+						MyModelElement aTask = ((MyModelElement)((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject());
 						h.setMessage(Parser.getInstance().getDescriptionByTask(aTask.getRealName()));
 						h.setVisible(true);
 					} 
@@ -240,21 +245,6 @@ public class MainFrame extends JFrame{
 		return t ;
 	}
 	
-	private class MyTask {
-		private String realName;
-		private String presentationName;
-		
-		public MyTask(String aRealName) {
-			this.realName = aRealName;
-			this.presentationName = Parser.getInstance().getPresentationNameByName(aRealName); 
-		}
-		
-		public String toString() {
-			return this.presentationName;
-		}
-		
-		public String getRealName() {
-			return this.realName;
-		}
-	}
+	
+	
 }  //  @jve:decl-index=0:visual-constraint="10,10"

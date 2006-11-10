@@ -21,4 +21,8 @@ public class TreePanel extends JScrollPane {
 		this.setViewportView(t);
 	}
 	
+	public JXTree getTree (){
+		return tree;
+	}
+	
 }
