@@ -216,7 +216,9 @@ public class MainFrame extends JFrame{
 		ArrayList<String> a = Parser.getInstance().getPrimaryTaskByRole(role);
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(role , true ) ;
 		for (Iterator<String> i = a.iterator() ; i.hasNext();){
-			DefaultMutableTreeNode tmp = new DefaultMutableTreeNode(i.next() , true );
+			MyTask aTask = new MyTask (i.next());
+			DefaultMutableTreeNode tmp = new DefaultMutableTreeNode(aTask, true );
+			
 			root.add(tmp) ;
 		}
 		final JXTree t = new JXTree (root);
@@ -228,12 +230,31 @@ public class MainFrame extends JFrame{
 				      if (path != null && ((DefaultMutableTreeNode)path.getLastPathComponent()).isLeaf() && ((DefaultMutableTreeNode)path.getLastPathComponent()).getParent() != null){ 
 				    	Point p = getHTMLLocation();
 						HTMLViewer h = HTMLViewer.getInstance(p);
-						h.setMessage(Parser.getInstance().getDescriptionByTask(path.getLastPathComponent().toString()));
+						MyTask aTask = ((MyTask)((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject());
+						h.setMessage(Parser.getInstance().getDescriptionByTask(aTask.getRealName()));
 						h.setVisible(true);
 					} 
 			     }		  
 			  } 
 			});
 		return t ;
+	}
+	
+	private class MyTask {
+		private String realName;
+		private String presentationName;
+		
+		public MyTask(String aRealName) {
+			this.realName = aRealName;
+			this.presentationName = Parser.getInstance().getPresentationNameByName(aRealName); 
+		}
+		
+		public String toString() {
+			return this.presentationName;
+		}
+		
+		public String getRealName() {
+			return this.realName;
+		}
 	}
 }  //  @jve:decl-index=0:visual-constraint="10,10"

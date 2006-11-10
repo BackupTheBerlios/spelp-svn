@@ -41,14 +41,12 @@ public class HTMLViewer extends JFrame {
 	 * @param message
 	 */
 	public void setMessage(String message) {
-		if(message.length() != 0)
-			this.HTMLCode = message;
-		else
-			this.HTMLCode = "&nbsp;";	// pour changer la position du caret, "HTMLCode" ne doit pas etre vide
-	
+		this.HTMLCode = message;
+		
 		this.myEditorPane.setText(this.HTMLCode);
 		
-		this.myEditorPane.setCaretPosition(1); // revient au debut du texte
+		if(message.length() != 0)
+			this.myEditorPane.setCaretPosition(1); // revient au debut du texte
 	}
 	
 	
