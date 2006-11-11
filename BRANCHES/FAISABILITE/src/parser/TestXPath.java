@@ -1,85 +1,117 @@
 package parser;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Iterator;
 
-import javax.xml.namespace.NamespaceContext;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
+import javax.xml.namespace.*;
+import javax.xml.parsers.*;
+import javax.xml.xpath.*;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
+import org.w3c.dom.*;
+import org.xml.sax.*;
 
-public class TestXPath {
-	public static Node evaluer(InputStream stream, String expression){
-        Node node = null;
-        try{
-        //création de la source
-        InputSource source = new InputSource(stream);
-        
-        //création du XPath 
-        XPathFactory fabrique = XPathFactory.newInstance();
-        XPath xpath = fabrique.newXPath();
-        
-        //évaluation de l'expression XPath
-        XPathExpression exp = xpath.compile(expression);
-        node = (Node)exp.evaluate(source,XPathConstants.NODE);
-        
-     
-        
-        }catch(XPathExpressionException xpee){
-        xpee.printStackTrace();
-        }
-        return node;
-        }
+public class TestXPath {	
+	final static String expression = "//BreakdownElement";
 	
-	public static NodeList evaluerListeNoeuds(InputStream stream, String expression){
-        NodeList liste = null;
-        try{
-        //création de la source
-        InputSource source = new InputSource(stream);
-        
-        //création du XPath 
-        XPathFactory fabrique = XPathFactory.newInstance();
-        XPath xpath = fabrique.newXPath();
-        
-        //évaluation de l'expression XPath
-        XPathExpression exp = xpath.compile(expression);
-        liste = (NodeList)exp.evaluate(source,XPathConstants.NODESET);
-        
-        }catch(XPathExpressionException xpee){
-        xpee.printStackTrace();
-        }
-        return liste;
-        }
-
+	public static Object evaluerDOM(Document document, String expression, QName retour){
+		Object resultat = null;
+		try{
+			//création du XPath 
+			XPathFactory fabrique = XPathFactory.newInstance();
+			XPath xpath = fabrique.newXPath();
+			
+			//évaluation de l'expression XPath
+			XPathExpression exp = xpath.compile(expression);
+			resultat = exp.evaluate(document,retour);
+			
+			System.out.println(resultat);
+		}catch(XPathExpressionException xpee){
+			xpee.printStackTrace();
+		}
+		return resultat;
+	}
+	public static Object evaluerSAX(File fichier, String expression, QName retour){
+		Object resultat = null;
+		try{
+			//création de la source
+			InputSource source = new InputSource(new FileInputStream(fichier));
+			
+			//création du XPath 
+			XPathFactory fabrique = XPathFactory.newInstance();
+			XPath xpath = fabrique.newXPath();
+			
+			//évaluation de l'expression XPath
+			XPathExpression exp = xpath.compile(expression);
+			resultat = exp.evaluate(source,retour);
+			
+			System.out.println(resultat);
+		}catch(XPathExpressionException xpee){
+			xpee.printStackTrace();
+		}catch(IOException  ioe){
+			ioe.printStackTrace();	
+		}
+		return resultat;
+	}
 	
-	public static void main (String args[]){
-		FileInputStream url;
-		try {
-			url = new FileInputStream("scrum.xml");
-			String expression = "//BreakdownElement[PerformedPrimarilyBy='_uVjbMABVEdu3o4yroaI-tA']";
-	        NodeList nodel = evaluerListeNoeuds(url,expression);
-	        Node node;
+	public static void main (String args[]){		
+
+		File xmlExample = new File("sortieEPF.xml");	
+		testDom(xmlExample);
+		testDom(xmlExample);
+		testDom(xmlExample);
+		testDom(xmlExample);
+		testDom(xmlExample);       
+	}
+	
+	public static void testDom (File xmlExample){	
+		try{
+			long t = System.currentTimeMillis() ;
+			System.out.println(" Dom ");
+			// File xmlExample = new File("scrum.xml");	    	
+	        DocumentBuilderFactory fabrique = DocumentBuilderFactory.newInstance();		
+			DocumentBuilder constructeur;
+			constructeur = fabrique.newDocumentBuilder();		
+			Document document = constructeur.parse(xmlExample);
+			NodeList nodel = (NodeList) TestXPath.evaluerDOM(document,expression, XPathConstants.NODESET);
+	    	Node node;
 	        for(int i=0; i<nodel.getLength(); i++) {
 	        	node = nodel.item(i);
-	        	//System.out.println(node.getTextContent());
+	        	
 		        System.out.println(node.getAttributes().getNamedItem("name").getNodeValue());
 		        System.out.println("	"+node.getAttributes().getNamedItem("xsi:type").getNodeValue());
 	        }
-	        
-	        
-		} catch (FileNotFoundException e) {
+	        t = System.currentTimeMillis() - t;
+	        System.out.println("Fin Dom : "+ t);
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
-       
+	}
+	
+	public static void testSax (File xmlExample){
+		// Exemple Sax		
+		try{
+			long t = System.currentTimeMillis() ;
+			System.out.println(" Sax ");
+			//File xmlExample = new File("scrum.xml");	    	
+	    	NodeList nodel = (NodeList) TestXPath.evaluerSAX(xmlExample,expression, XPathConstants.NODESET);
+	    	Node node;
+	        for(int i=0; i<nodel.getLength(); i++) {
+	        	node = nodel.item(i);
+	
+		        System.out.println(node.getAttributes().getNamedItem("name").getNodeValue());
+		        System.out.println("	"+node.getAttributes().getNamedItem("xsi:type").getNodeValue());
+	        }
+	        t = System.currentTimeMillis() - t;
+	        System.out.println("Fin Sax : "+t);
+		}catch(Exception e){
+			e.printStackTrace();	
+		}    
 	}
 }

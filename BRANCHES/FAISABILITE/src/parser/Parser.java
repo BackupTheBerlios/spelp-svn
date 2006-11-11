@@ -19,10 +19,9 @@ import org.xml.sax.InputSource;
 public class Parser {
 
 	private static String FileXML = "toyton.xml";
-	private String roleDescriptor = "//BreakdownElement[@*[namespace-uri() and local-name()='type']='uma:RoleDescriptor']";
-	private String taskDescriptor = "//BreakdownElement[@*[namespace-uri() and local-name()='type']='uma:TaskDescriptor']";
+	private static String roleDescriptor = "//BreakdownElement[@*[namespace-uri() and local-name()='type']='uma:RoleDescriptor']";
+	private static String taskDescriptor = "//BreakdownElement[@*[namespace-uri() and local-name()='type']='uma:TaskDescriptor']";
 	private static Parser instance;
-
 
     /**
      *  private constructor for the singleton 
@@ -55,7 +54,7 @@ public class Parser {
         	stream.mark(0);
         //create source
         InputSource source = new InputSource(stream);
-        
+
         //creare XPath 
         XPathFactory fabrique = XPathFactory.newInstance();
         XPath xpath = fabrique.newXPath();
@@ -63,7 +62,6 @@ public class Parser {
         //evaluate Xpath expression
         XPathExpression exp = xpath.compile(expression);
         node = (Node)exp.evaluate(source,XPathConstants.NODE);
-        
         }catch(XPathExpressionException xpee){        	
         	xpee.printStackTrace();        
         }
