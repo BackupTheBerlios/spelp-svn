@@ -4,10 +4,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Vector;
 
 import javax.xml.xpath.XPathConstants;
 
 import modelWoops.Process;
+import modelWoops.role.Role;
+import modelWoops.role.RoleDescriptor;
+import modelWoops.task.Task;
 import modelWoops.task.TaskDescriptor;
 
 import org.w3c.dom.Node;
@@ -26,6 +30,8 @@ public class XMLParser {
 	private static String roleDescriptor = "//BreakdownElement[@*[namespace-uri() and local-name()='type']='uma:RoleDescriptor']";
 	private static String taskDescriptor = "//BreakdownElement[@*[namespace-uri() and local-name()='type']='uma:TaskDescriptor']";
 	
+	private Vector<Task> TasksList = new Vector<Task> ();
+	private Vector<Role> RoleList = new Vector<Role> ();
 	/**
 	 * setFile is the function need to be called in first
 	 * @param f File to be parsed
@@ -78,5 +84,36 @@ public class XMLParser {
 		return taskList;
 	}
 	
+	/**
+	 * getAllRolesDescriptors
+	 * @param t
+	 * @return a set containing the roles associated with the task descriptor
+	 */
+	public static Set<RoleDescriptor> getAllRolesDescriptors(){
+		return null ;
+	}
 	
+	/**
+	 * getTasksByTaskDescriptor
+	 * @param t
+	 * @return a task 
+	 */
+	public static Task getTaskByTaskDescriptor(TaskDescriptor t){
+		// prendre toutes la tache du task descriptor
+		// regarder si elle exite dans le vector de tache 
+		// si elle n'existe pas 
+		//		l'instancier 
+		// 		ajouter la task dans le vector
+		// fin si
+		// ajouter le task descriptor dans le set de cette tache
+		// setter la task dans le set descriptor
+		return null ;
+	}
+	
+	public static Task getRoleByRoleDescriptor(RoleDescriptor r){
+		// idem ci dessus
+		return null ;
+	}
 }
+
+
