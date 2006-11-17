@@ -42,6 +42,14 @@ public class XMLParser {
 	public static Process getProcess (){
 		Process p = new Process() ;
 		
+		try{
+			// get all the tasks descriptor
+			Set<TaskDescriptor> allTasks = getAllTaskDescriptors();
+		}
+		catch(Exception e)
+		{
+			
+		}
 		return p ;
 	}
 	/**
