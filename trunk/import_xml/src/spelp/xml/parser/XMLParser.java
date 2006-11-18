@@ -17,6 +17,7 @@ import modelWoops.task.TaskDescriptor;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import spelp.xml.fillers.FillerTask;
 import spelp.xml.fillers.FillerTaskDescriptor;
 
 
@@ -29,9 +30,11 @@ import spelp.xml.fillers.FillerTaskDescriptor;
 public class XMLParser {
 	private static String roleDescriptor = "//BreakdownElement[@*[namespace-uri() and local-name()='type']='uma:RoleDescriptor']";
 	private static String taskDescriptor = "//BreakdownElement[@*[namespace-uri() and local-name()='type']='uma:TaskDescriptor']";
+	// sections
+	private static String task = "Task";
 	
-	private Vector<Task> TasksList = new Vector<Task> ();
-	private Vector<Role> RoleList = new Vector<Role> ();
+	private static Vector<Task> TasksList = new Vector<Task> ();
+	private static Vector<Role> RoleList = new Vector<Role> ();
 	/**
 	 * setFile is the function need to be called in first
 	 * @param f File to be parsed
@@ -47,7 +50,6 @@ public class XMLParser {
 	 */
 	public static Process getProcess (){
 		Process p = new Process() ;
-		
 		try{
 			// get all the tasks descriptor
 			Set<TaskDescriptor> allTasks = getAllTaskDescriptors();
@@ -74,8 +76,11 @@ public class XMLParser {
 			for(int i=0;i<taskDescriptors.getLength();i++){
 				aNode = taskDescriptors.item(i);
 				TaskDescriptor aTaskDescriptor = new TaskDescriptor();
-				FillerTaskDescriptor aFiller = new FillerTaskDescriptor(aTaskDescriptor,aNode);			
-				taskList.add((TaskDescriptor)aFiller.getFilledElement());
+				FillerTaskDescriptor aFiller = new FillerTaskDescriptor(aTaskDescriptor,aNode);	
+				TaskDescriptor taskDescriptorfilled = (TaskDescriptor)aFiller.getFilledElement();
+				getTaskByTaskDescriptor(taskDescriptorfilled,aNode);
+				
+				taskList.add(taskDescriptorfilled);
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -98,15 +103,58 @@ public class XMLParser {
 	 * @param t
 	 * @return a task 
 	 */
-	public static Task getTaskByTaskDescriptor(TaskDescriptor t){
-		// prendre toutes la tache du task descriptor
-		// regarder si elle exite dans le vector de tache 
-		// si elle n'existe pas 
-		//		l'instancier 
-		// 		ajouter la task dans le vector
-		// fin si
-		// ajouter le task descriptor dans le set de cette tache
-		// setter la task dans le set descriptor
+	public static void getTaskByTaskDescriptor(TaskDescriptor _t,Node _node) throws Exception{
+		Task taskTobereturn = null;
+		// getting the id of the task
+		String idTask = "" ;
+		NodeList listOfTdNodes = _node.getChildNodes() ;
+		boolean trouve = false ;
+		for (int i = 0 ; i < listOfTdNodes.getLength() && !trouve ; i ++){
+			if (listOfTdNodes.item(i).getNodeName().equals(task)){
+				trouve = true ;
+				idTask = listOfTdNodes.item(i).getTextContent();
+			}
+		}
+		// process if there is a task for this task desriptor
+		if (trouve){
+			taskTobereturn = getTaskInVector(idTask);
+			// if the task doesn't exist
+			if (taskTobereturn == null){
+				taskTobereturn = new Task();
+				
+				// getting the attributes of the task
+				Node aNode = getNodeTask(idTask);
+				FillerTask aFiller = new FillerTask(taskTobereturn,aNode);
+				
+				taskTobereturn = (Task)aFiller.getFilledElement() ;
+				TasksList.add(taskTobereturn);
+			}
+			// set the task in the taskdescriptor
+			taskTobereturn.getTaskDescriptors().add(_t);
+			_t.setTask(taskTobereturn);
+		}
+	}
+	
+	public static Node getNodeTask (String id) throws Exception {
+		String reqXpath = "//ContentElement[@*[namespace-uri() and local-name()='type']='uma:Task' and @id ='"+id+"']";
+		Node nodeReturned = (Node)XMLUtils.evaluate(reqXpath,XPathConstants.NODE);
+		if (nodeReturned == null){
+			throw new Exception ("NO TASK FOUND");
+		}
+		return nodeReturned ;
+	}
+		
+	/**
+	 * getTaskInVector : search in the vector if the object already exists
+	 * @param id
+	 * @return
+	 */
+	public static Task getTaskInVector (String id){
+		for (int i = 0 ; i < TasksList.size() ; i++){
+			if (TasksList.get(i).getId().equals(id)){
+				return (TasksList.get(i));
+			}
+		}
 		return null ;
 	}
 	

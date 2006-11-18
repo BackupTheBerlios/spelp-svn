@@ -13,7 +13,7 @@ import spelp.xml.parser.XMLParser;
 import spelp.xml.parser.XMLUtils;
 
 public class XMLUtilsTest {
-	public static String path = "ressources/scrum.xml";
+	public static String path = "ressources" + File.separator + "scrum.xml";
 	public String expression = "//BreakdownElement[@*[namespace-uri() and local-name()='type']='uma:TaskDescriptor']";
 	@Test
 	public void testSetDocument() {
