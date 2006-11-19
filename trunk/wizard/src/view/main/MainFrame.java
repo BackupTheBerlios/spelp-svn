@@ -45,7 +45,7 @@ public class MainFrame extends JFrame{
 	private TreePanel tp = null ;
 	private InfoPanel southpanel = null ;
 	public static Dimension dimFrame ;
-	public static File XML = null ;
+
 	/**
 	 * This method initializes this
 	 * 
@@ -120,43 +120,44 @@ public class MainFrame extends JFrame{
 	}
 	private JMenuItem getFichierItem(){
 		if (itemFichier == null) {
-			itemFichier = new JMenuItem("Open");
+			itemFichier = new JMenuItem("Connection");
 			itemFichier.addActionListener(new ActionListener(){
 
 				public void actionPerformed(ActionEvent e) {
-					String myHome = "." + File.separator ;
-					System.out.println(myHome);
-					boolean wasHTMLViewerShown;
-					wasHTMLViewerShown = HTMLViewer.getInstance(null).isVisible();
-					HTMLViewer.getInstance(null).setVisible(false);
-					JFileChooser opening = new JFileChooser(myHome);
-					opening.setFileFilter(new myFileFilter());
-					if (opening.showOpenDialog(MainFrame.this) == JFileChooser.CANCEL_OPTION){
-						System.out.println("cancel");
-						if (wasHTMLViewerShown)
-							HTMLViewer.getInstance(null).setVisible(true);
-					}
-					else {
-						 
-						/*Parser.getInstance().setFileXML(opening.getSelectedFile().toString());*/
-						ArrayList<String> v = new ArrayList<String>()/*= Parser.getInstance().getRole()*/;
-						ArrayList<MyModelElement> listRoles = new ArrayList();
-						for(int i = 0 ; i < v.size() ; i++){
-							listRoles.add(new MyModelElement(v.get(i)));
-						}
-						
-						DialogRoles d = new DialogRoles(MainFrame.this,listRoles);
-						if (d.getChoix() == DialogRoles.CHOIX_OK){
-							MainFrame.this.tp.putTree(MainFrame.this.getTreeWithTasks(d.getModelElement()));
-							southpanel.setInfo(
-									"<html>Process used : " + /*Parser.getInstance().getMethodName() +*/ "<br>" +
-									"You are " + d.getRole() +"</html>"
-							);
-						}
+					new DialogLogin(MainFrame.this);
+//					String myHome = "." + File.separator ;
+//					System.out.println(myHome);
+//					boolean wasHTMLViewerShown;
+//					wasHTMLViewerShown = HTMLViewer.getInstance(null).isVisible();
+//					HTMLViewer.getInstance(null).setVisible(false);
+//					JFileChooser opening = new JFileChooser(myHome);
+//					opening.setFileFilter(new myFileFilter());
+//					if (opening.showOpenDialog(MainFrame.this) == JFileChooser.CANCEL_OPTION){
+//						System.out.println("cancel");
+//						if (wasHTMLViewerShown)
+//							HTMLViewer.getInstance(null).setVisible(true);
+//					}
+//					else {
+//						 
+//						Parser.getInstance().setFileXML(opening.getSelectedFile().toString());*/
+//						/*ArrayList<String> v = new ArrayList<String>()/*= Parser.getInstance().getRole()*/;
+//						ArrayList<MyModelElement> listRoles = new ArrayList();
+//						for(int i = 0 ; i < v.size() ; i++){
+//							listRoles.add(new MyModelElement(v.get(i)));
+//						}
+//						
+//						DialogRoles d = new DialogRoles(MainFrame.this,listRoles);
+//						if (d.getChoix() == DialogRoles.CHOIX_OK){
+//							MainFrame.this.tp.putTree(MainFrame.this.getTreeWithTasks(d.getModelElement()));
+//							southpanel.setInfo(
+//									"<html>Process used : " + /*Parser.getInstance().getMethodName() +*/ "<br>" +
+//									"You are " + d.getRole() +"</html>"
+//							);
+//						}
 						
 						//d.dispose();
 						
-					}
+//					}
 				}
 				
 			});
