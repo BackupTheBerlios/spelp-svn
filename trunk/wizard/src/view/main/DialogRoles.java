@@ -25,6 +25,9 @@ import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import java.awt.event.KeyEvent;
 import javax.swing.border.EtchedBorder;
+
+import modelWoops.role.RoleDescriptor;
+
 import java.awt.SystemColor;
 import java.awt.Font;
 
@@ -62,7 +65,7 @@ public class DialogRoles extends JDialog {
 	/**
 	 * @param owner
 	 */
-	public DialogRoles(Frame owner, Collection<MyModelElement> listRoles) {
+	public DialogRoles(Frame owner, Collection<RoleDescriptor> listRoles) {
 		super(owner,true);
 		initialize();
 		for (Iterator i = listRoles.iterator();i.hasNext();){
@@ -112,7 +115,8 @@ public class DialogRoles extends JDialog {
 			listeRole.setPreferredSize(new Dimension(31, 20));
 			listeRole.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
-					/*DialogRoles.this.setDescription(Parser.getInstance().getDescriptionByRole(((MyModelElement)listeRole.getSelectedItem()).getRealName()));*/
+					// TODO Remplacer getName par GetPresentationName
+					DialogRoles.this.setDescription(((RoleDescriptor)listeRole.getSelectedItem()).getName());
 				}
 			});
 		}
@@ -185,16 +189,17 @@ public class DialogRoles extends JDialog {
 		
 	}
 	
-	public MyModelElement getModelElement(){
-		return ((MyModelElement)listeRole.getSelectedItem());
+	public RoleDescriptor getModelElement(){
+		return ((RoleDescriptor)listeRole.getSelectedItem());
 	}
 	
 	public String getRealRole(){
-		return ((MyModelElement)listeRole.getSelectedItem()).getRealName();
+		//TODO Remplacer getName par GetPresentationName
+		return ((RoleDescriptor)listeRole.getSelectedItem()).getName();
 	}
 	
 	public String getRole(){
-		return ((MyModelElement)listeRole.getSelectedItem()).toString();
+		return ((RoleDescriptor)listeRole.getSelectedItem()).getName();
 	}
 
 	/**

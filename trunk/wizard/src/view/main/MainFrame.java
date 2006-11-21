@@ -30,6 +30,10 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import modelWoops.role.RoleDescriptor;
+import modelWoops.task.Task;
+import modelWoops.task.TaskDescriptor;
+
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.jdesktop.swingx.JXTree;
@@ -217,12 +221,13 @@ public class MainFrame extends JFrame{
 		}
 	}
 	
-	private JXTree getTreeWithTasks(MyModelElement role){
+	private JXTree getTreeWithTasks(RoleDescriptor role){
 		//ArrayList a = Parser.getInstance().getTask();
 		ArrayList<String> a = new ArrayList<String>()/*= Parser.getInstance().getPrimaryTaskByRole(role.getRealName())*/;
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode(role.toString() , true ) ;
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode(role.getName() , true ) ;
 		for (Iterator<String> i = a.iterator() ; i.hasNext();){
-			MyModelElement aTask = new MyModelElement (i.next());
+			TaskDescriptor aTask = new TaskDescriptor ();
+			aTask.setName(i.next());
 			DefaultMutableTreeNode tmp = new DefaultMutableTreeNode(aTask, true );
 			
 			root.add(tmp) ;
@@ -236,8 +241,8 @@ public class MainFrame extends JFrame{
 				      if (path != null && ((DefaultMutableTreeNode)path.getLastPathComponent()).isLeaf() && ((DefaultMutableTreeNode)path.getLastPathComponent()).getParent() != null){ 
 				    	Point p = getHTMLLocation();
 						HTMLViewer h = HTMLViewer.getInstance(p);
-						MyModelElement aTask = ((MyModelElement)((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject());
-						/*h.setMessage(Parser.getInstance().getDescriptionByTask(aTask.getRealName()));*/
+						TaskDescriptor aTask = ((TaskDescriptor)((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject());
+						h.setMessage(aTask.getDescription());
 						h.setVisible(true);
 					} 
 			     }		  
