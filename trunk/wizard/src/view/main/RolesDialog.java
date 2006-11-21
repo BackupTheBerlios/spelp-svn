@@ -31,7 +31,7 @@ import modelWoops.role.RoleDescriptor;
 import java.awt.SystemColor;
 import java.awt.Font;
 
-public class DialogRoles extends JDialog {
+public class RolesDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -65,7 +65,7 @@ public class DialogRoles extends JDialog {
 	/**
 	 * @param owner
 	 */
-	public DialogRoles(Frame owner, Collection<RoleDescriptor> listRoles) {
+	public RolesDialog(Frame owner, Collection<RoleDescriptor> listRoles) {
 		super(owner,true);
 		initialize();
 		for (Iterator i = listRoles.iterator();i.hasNext();){
@@ -116,7 +116,7 @@ public class DialogRoles extends JDialog {
 			listeRole.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					// TODO Remplacer getName par GetPresentationName
-					DialogRoles.this.setDescription(((RoleDescriptor)listeRole.getSelectedItem()).getName());
+					RolesDialog.this.setDescription(((RoleDescriptor)listeRole.getSelectedItem()).getName());
 				}
 			});
 		}
@@ -155,8 +155,8 @@ public class DialogRoles extends JDialog {
 			cancel.setText("Cancel");
 			cancel.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					choice = DialogRoles.CHOIX_CANCEL ;
-					DialogRoles.this.setVisible(false);
+					choice = RolesDialog.CHOIX_CANCEL ;
+					RolesDialog.this.setVisible(false);
 				}
 			});
 		}
@@ -176,8 +176,8 @@ public class DialogRoles extends JDialog {
 			OK.setText("OK");
 			OK.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					choice = DialogRoles.CHOIX_OK ;
-					DialogRoles.this.setVisible(false);
+					choice = RolesDialog.CHOIX_OK ;
+					RolesDialog.this.setVisible(false);
 				}
 			});
 		}

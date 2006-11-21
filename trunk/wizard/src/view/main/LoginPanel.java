@@ -15,11 +15,9 @@ import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 
-public class DialogLogin extends JDialog {
+public class LoginPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-
-	private JPanel jContentPane = null;
 
 	private JLabel introLabel = null;
 
@@ -46,11 +44,8 @@ public class DialogLogin extends JDialog {
 	/**
 	 * @param owner
 	 */
-	public DialogLogin(Frame owner) {
-		super(owner);
+	public LoginPanel() {
 		initialize();
-		this.setTitle("Fenêtre de login");
-		this.setVisible(true);
 	}
 
 	/**
@@ -59,26 +54,14 @@ public class DialogLogin extends JDialog {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(300, 150);
-		this.setContentPane(getJContentPane());
-	}
+		//this.setSize(300, 150);
+		introLabel = new JLabel();
+		introLabel.setText(" Veuillez saisir votre login et votre mot de passe.");
 
-	/**
-	 * This method initializes jContentPane
-	 * 
-	 * @return javax.swing.JPanel
-	 */
-	private JPanel getJContentPane() {
-		if (jContentPane == null) {
-			introLabel = new JLabel();
-			introLabel.setText(" Veuillez saisir votre login et votre mot de passe.");
-			jContentPane = new JPanel();
-			jContentPane.setLayout(new BorderLayout());
-			jContentPane.add(introLabel, BorderLayout.NORTH);
-			jContentPane.add(getButtonsPanel(), BorderLayout.SOUTH);
-			jContentPane.add(getFieldsPanel(), BorderLayout.CENTER);
-		}
-		return jContentPane;
+		this.setLayout(new BorderLayout());
+		this.add(introLabel, BorderLayout.NORTH);
+		this.add(getButtonsPanel(), BorderLayout.SOUTH);
+		this.add(getFieldsPanel(), BorderLayout.CENTER);
 	}
 
 	/**

@@ -61,7 +61,9 @@ public class MainFrame extends JFrame{
 	}
 	
 	private void initialize() {
-       this.setJMenuBar(getMenu());
+		this.setSize(300, 150);
+		this.setContentPane(new LoginPanel());
+       /*this.setJMenuBar(getMenu());
        dimFrame = Toolkit.getDefaultToolkit().getScreenSize();
        tp = new TreePanel();
        this.add(tp,BorderLayout.CENTER);
@@ -83,7 +85,7 @@ public class MainFrame extends JFrame{
 		public void componentShown(ComponentEvent e) {
 			// TODO Auto-generated method stub	
 		}
-       });
+       });*/
 	}
 	
 	private InfoPanel getSouthPanel() {
@@ -128,7 +130,7 @@ public class MainFrame extends JFrame{
 			itemFichier.addActionListener(new ActionListener(){
 
 				public void actionPerformed(ActionEvent e) {
-					new DialogLogin(MainFrame.this);
+					//new LoginPanel(MainFrame.this);
 //					String myHome = "." + File.separator ;
 //					System.out.println(myHome);
 //					boolean wasHTMLViewerShown;
