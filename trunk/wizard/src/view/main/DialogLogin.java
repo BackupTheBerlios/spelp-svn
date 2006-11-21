@@ -39,6 +39,10 @@ public class DialogLogin extends JDialog {
 
 	private JLabel passwordLabel = null;
 
+	private JLabel adressLabel = null;
+
+	private JTextField adressTextField = null;
+
 	/**
 	 * @param owner
 	 */
@@ -55,7 +59,7 @@ public class DialogLogin extends JDialog {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(300, 120);
+		this.setSize(300, 150);
 		this.setContentPane(getJContentPane());
 	}
 
@@ -67,7 +71,7 @@ public class DialogLogin extends JDialog {
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
 			introLabel = new JLabel();
-			introLabel.setText("Veuillez saisir votre login et votre mot de passe.");
+			introLabel.setText(" Veuillez saisir votre login et votre mot de passe.");
 			jContentPane = new JPanel();
 			jContentPane.setLayout(new BorderLayout());
 			jContentPane.add(introLabel, BorderLayout.NORTH);
@@ -99,12 +103,16 @@ public class DialogLogin extends JDialog {
 	 */
 	private JPanel getFieldsPanel() {
 		if (fieldsPanel == null) {
+			adressLabel = new JLabel();
+			adressLabel.setText(" adresse du serveur");
 			passwordLabel = new JLabel();
-			passwordLabel.setText("password");
+			passwordLabel.setText(" password");
 			loginLabel = new JLabel();
-			loginLabel.setText("login");
+			loginLabel.setText(" login");
 			fieldsPanel = new JPanel();
-			fieldsPanel.setLayout(new GridLayout(2,2));
+			fieldsPanel.setLayout(new GridLayout(3,2));
+			fieldsPanel.add(adressLabel, null);
+			fieldsPanel.add(getAdressTextField(), null);
 			fieldsPanel.add(loginLabel, null);
 			fieldsPanel.add(getLoginTextField());
 			fieldsPanel.add(passwordLabel, null);
@@ -161,6 +169,18 @@ public class DialogLogin extends JDialog {
 			passwordPasswordField = new JPasswordField();
 		}
 		return passwordPasswordField;
+	}
+
+	/**
+	 * This method initializes adressTextField	
+	 * 	
+	 * @return javax.swing.JTextField	
+	 */
+	private JTextField getAdressTextField() {
+		if (adressTextField == null) {
+			adressTextField = new JTextField();
+		}
+		return adressTextField;
 	}
 
 }
