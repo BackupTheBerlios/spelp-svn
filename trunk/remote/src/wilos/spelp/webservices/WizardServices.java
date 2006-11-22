@@ -1,4 +1,4 @@
-package webservices;
+package wilos.spelp.webservices;
 
 import java.util.Collection;
 
@@ -8,7 +8,7 @@ import woops2.model.role.RoleDescriptor;
 
 public class WizardServices {
 	public Collection<RoleDescriptor> getAllRoles () {
-
+		
 
 		return null;
 	}	
