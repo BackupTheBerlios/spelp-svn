@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
+import ressources.Bundle;
+
 public class HTMLViewer extends JFrame {
 	private static HTMLViewer instance = null;
 	private String HTMLCode; // Le code HTML affiché
@@ -18,7 +20,7 @@ public class HTMLViewer extends JFrame {
 	private JEditorPane myEditorPane;
 	
 	private HTMLViewer(Point p) {
-		super("HTMLViewer");
+		super(Bundle.getText("htmlViewer.title"));
 		this.setLayout(new BorderLayout());
 		
 		this.setSize(Toolkit.getDefaultToolkit().getScreenSize().width / 2, Toolkit.getDefaultToolkit().getScreenSize().height / 2);
