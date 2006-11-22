@@ -26,6 +26,8 @@ import javax.swing.BoxLayout;
 import java.awt.event.KeyEvent;
 import javax.swing.border.EtchedBorder;
 
+import ressources.Bundle;
+
 import modelWoops.role.RoleDescriptor;
 
 import java.awt.SystemColor;
@@ -81,7 +83,7 @@ public class RolesDialog extends JDialog {
 	 */
 	private void initialize() {
 		this.setSize(330, 343);
-		this.setTitle("Please choose your role");
+		this.setTitle(Bundle.getText("rolesDialog.title"));
 		this.setResizable(false);
 		this.setContentPane(getJContentPane());
 	}
@@ -94,7 +96,7 @@ public class RolesDialog extends JDialog {
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {			
 			selectRole = new JLabel();
-			selectRole.setText("Please select your Role");
+			selectRole.setText(Bundle.getText("rolesDialog.selectRole"));
 			jContentPane = new JPanel();
 			jContentPane.setLayout(new BorderLayout());
 			jContentPane.add(getNorth(), BorderLayout.NORTH);
@@ -152,7 +154,7 @@ public class RolesDialog extends JDialog {
 			cancel = new JButton();
 			cancel.setPreferredSize(new Dimension(80, 20));
 			cancel.setMnemonic(KeyEvent.VK_UNDEFINED);
-			cancel.setText("Cancel");
+			cancel.setText(Bundle.getText("rolesDialog.cancel"));
 			cancel.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					choice = RolesDialog.CHOIX_CANCEL ;
@@ -173,7 +175,7 @@ public class RolesDialog extends JDialog {
 			OK = new JButton();
 			OK.setPreferredSize(new Dimension(80, 20));
 			OK.setHorizontalAlignment(SwingConstants.CENTER);
-			OK.setText("OK");
+			OK.setText(Bundle.getText("rolesDialog.ok"));
 			OK.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					choice = RolesDialog.CHOIX_OK ;
