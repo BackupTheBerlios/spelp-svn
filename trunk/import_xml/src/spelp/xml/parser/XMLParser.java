@@ -3,22 +3,25 @@ package spelp.xml.parser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.management.relation.Role;
 import javax.xml.xpath.XPathConstants;
-
-import modelWoops.Process;
-import modelWoops.role.Role;
-import modelWoops.role.RoleDescriptor;
-import modelWoops.task.Task;
-import modelWoops.task.TaskDescriptor;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import spelp.xml.fillers.FillerTask;
 import spelp.xml.fillers.FillerTaskDescriptor;
+import woops2.model.role.RoleDescriptor;
+import woops2.model.task.TaskDefinition;
+import woops2.model.task.TaskDescriptor;
+import woops2.model.breakdownelement.BreakdownElement;
+import woops2.model.process.Process;
+
+import com.sun.jmx.snmp.tasks.Task;
 
 
 /**
@@ -33,7 +36,7 @@ public class XMLParser {
 	// sections
 	private static String task = "Task";
 	
-	private static Vector<Task> TasksList = new Vector<Task> ();
+	private static Vector<TaskDefinition> TasksList = new Vector<TaskDefinition> ();
 	private static Vector<Role> RoleList = new Vector<Role> ();
 	/**
 	 * setFile is the function need to be called in first
@@ -42,6 +45,11 @@ public class XMLParser {
 	public static void setFile(File f){
 		// put the document in memory
 		XMLUtils.setDocument(f);
+	}
+	
+	public static Process getProcess(File f){
+		XMLUtils.setDocument(f);
+		return (getProcess());
 	}
 	
 	/**
@@ -53,6 +61,9 @@ public class XMLParser {
 		try{
 			// get all the tasks descriptor
 			Set<TaskDescriptor> allTasks = getAllTaskDescriptors();
+			for (Iterator i = allTasks.iterator() ; i.hasNext() ;){
+				p.addToBreakdownElement((BreakdownElement) i.next());
+			}
 		}
 		catch(Exception e)
 		{
@@ -66,7 +77,7 @@ public class XMLParser {
 	 * @throws Exception when no tasks descriptor are found
 	 */
 	public static Set<TaskDescriptor> getAllTaskDescriptors() throws Exception {
-		Set<TaskDescriptor> taskList = new HashSet<TaskDescriptor>();
+		HashSet<TaskDescriptor> taskList = new HashSet<TaskDescriptor>();
 		try {
 			NodeList taskDescriptors = (NodeList)XMLUtils.evaluate(taskDescriptor,XPathConstants.NODESET);
 			if (taskDescriptors == null){
@@ -79,7 +90,6 @@ public class XMLParser {
 				FillerTaskDescriptor aFiller = new FillerTaskDescriptor(aTaskDescriptor,aNode);	
 				TaskDescriptor taskDescriptorfilled = (TaskDescriptor)aFiller.getFilledElement();
 				getTaskByTaskDescriptor(taskDescriptorfilled,aNode);
-				
 				taskList.add(taskDescriptorfilled);
 			}
 		} catch (FileNotFoundException e) {
@@ -104,7 +114,7 @@ public class XMLParser {
 	 * @return a task 
 	 */
 	public static void getTaskByTaskDescriptor(TaskDescriptor _t,Node _node) throws Exception{
-		Task taskTobereturn = null;
+		TaskDefinition taskTobereturn = null;
 		// getting the id of the task
 		String idTask = "" ;
 		NodeList listOfTdNodes = _node.getChildNodes() ;
@@ -120,18 +130,17 @@ public class XMLParser {
 			taskTobereturn = getTaskInVector(idTask);
 			// if the task doesn't exist
 			if (taskTobereturn == null){
-				taskTobereturn = new Task();
+				taskTobereturn = new TaskDefinition();
 				
 				// getting the attributes of the task
 				Node aNode = getNodeTask(idTask);
 				FillerTask aFiller = new FillerTask(taskTobereturn,aNode);
 				
-				taskTobereturn = (Task)aFiller.getFilledElement() ;
+				taskTobereturn = (TaskDefinition)aFiller.getFilledElement() ;
 				TasksList.add(taskTobereturn);
 			}
 			// set the task in the taskdescriptor
-			taskTobereturn.getTaskDescriptors().add(_t);
-			_t.setTask(taskTobereturn);
+			_t.addToTaskDefinition(taskTobereturn);
 		}
 	}
 	
@@ -149,7 +158,7 @@ public class XMLParser {
 	 * @param id
 	 * @return
 	 */
-	public static Task getTaskInVector (String id){
+	public static TaskDefinition getTaskInVector (String id){
 		for (int i = 0 ; i < TasksList.size() ; i++){
 			if (TasksList.get(i).getId().equals(id)){
 				return (TasksList.get(i));

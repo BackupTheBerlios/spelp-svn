@@ -1,8 +1,8 @@
 package spelp.xml.fillers;
 
-import modelWoops.element.Element;
-
 import org.w3c.dom.Node;
+
+import woops2.model.element.Element;
 
 public class FillerElement {
 	Element myElement ;

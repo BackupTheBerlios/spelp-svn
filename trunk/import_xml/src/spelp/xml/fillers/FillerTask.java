@@ -1,13 +1,12 @@
 package spelp.xml.fillers;
 
-import modelWoops.element.Element;
-import modelWoops.task.Task;
-
 import org.w3c.dom.Node;
+
+import woops2.model.task.TaskDefinition;
 
 public class FillerTask extends FillerElement
 {
-	public FillerTask(Task _e, Node _aNode) {
+	public FillerTask(TaskDefinition _e, Node _aNode) {
 		super(_e, _aNode);
 	}
 	

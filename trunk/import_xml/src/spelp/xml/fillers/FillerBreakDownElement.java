@@ -1,8 +1,8 @@
 package spelp.xml.fillers;
 
-import modelWoops.breakdownelement.BreakdownElement;
-
 import org.w3c.dom.Node;
+
+import woops2.model.breakdownelement.BreakdownElement;
 
 public class FillerBreakDownElement extends FillerElement {
 	private static String prefix = "prefix" ;

@@ -1,9 +1,9 @@
 package spelp.xml.fillers;
 
-import modelWoops.breakdownelement.BreakdownElement;
-import modelWoops.workbreakdownelement.WorkBreakdownElement;
-
 import org.w3c.dom.Node;
+
+import woops2.model.breakdownelement.BreakdownElement;
+import woops2.model.workbreakdownelement.WorkBreakdownElement;
 
 public class FillerWorkBreakDownElement extends FillerBreakDownElement{
 	private static String isRepeatable = "isRepeatable" ;
