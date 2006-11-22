@@ -7,21 +7,22 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 
-import javax.management.relation.Role;
 import javax.xml.xpath.XPathConstants;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import spelp.xml.fillers.FillerRole;
+import spelp.xml.fillers.FillerRoleDescriptor;
 import spelp.xml.fillers.FillerTask;
 import spelp.xml.fillers.FillerTaskDescriptor;
+import woops2.model.breakdownelement.BreakdownElement;
+import woops2.model.process.Process;
+import woops2.model.role.RoleDefinition;
 
 import woops2.model.role.RoleDescriptor;
 import woops2.model.task.TaskDefinition;
 import woops2.model.task.TaskDescriptor;
-import woops2.model.breakdownelement.BreakdownElement;
-import woops2.model.process.Process;
-
 
 
 /**
@@ -35,9 +36,10 @@ public class XMLParser {
 	private static String taskDescriptor = "//BreakdownElement[@*[namespace-uri() and local-name()='type']='uma:TaskDescriptor']";
 	// sections
 	private static String task = "Task";
+	private static String role = "Role";
 	
 	private static Vector<TaskDefinition> TasksList = new Vector<TaskDefinition> ();
-	private static Vector<Role> RoleList = new Vector<Role> ();
+	private static Vector<RoleDefinition> RoleList = new Vector<RoleDefinition> ();
 	/**
 	 * setFile is the function need to be called in first
 	 * @param f File to be parsed
@@ -100,6 +102,34 @@ public class XMLParser {
 	}
 	
 	/**
+	 * getAllRoleDescriptors 
+	 * @return all the tasks descriptors
+	 * @throws Exception when no tasks descriptor are found
+	 */
+	public static Set<RoleDescriptor> getAllRoleDescriptors() throws Exception {
+		HashSet<RoleDescriptor> roleList = new HashSet<RoleDescriptor>();
+		try {
+			NodeList roleDescriptors = (NodeList)XMLUtils.evaluate(roleDescriptor,XPathConstants.NODESET);
+			if (roleDescriptors == null){
+				throw new Exception ("NO ROLE DESCRIPTORS FOUND");
+			}
+			Node aNode;
+			for(int i=0;i<roleDescriptors.getLength();i++){
+				aNode = roleDescriptors.item(i);
+				
+				RoleDescriptor aRoleDescriptor = new RoleDescriptor();
+				FillerRoleDescriptor aFiller = new FillerRoleDescriptor(aRoleDescriptor,aNode);	
+				RoleDescriptor roleDescriptorfilled = (RoleDescriptor)aFiller.getFilledElement();
+				setRoleByRoleDescriptor(roleDescriptorfilled,aNode);
+				roleList.add(roleDescriptorfilled);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return roleList;
+	}
+	
+	/**
 	 * getAllRolesDescriptors
 	 * @param t
 	 * @return a set containing the roles associated with the task descriptor
@@ -152,6 +182,15 @@ public class XMLParser {
 		}
 		return nodeReturned ;
 	}
+	
+	public static Node getNodeRole (String id) throws Exception {
+		String reqXpath = "//ContentElement[@*[namespace-uri() and local-name()='type']='uma:Role' and @id ='"+id+"']";
+		Node nodeReturned = (Node)XMLUtils.evaluate(reqXpath,XPathConstants.NODE);
+		if (nodeReturned == null){
+			throw new Exception ("NO ROLE FOUND");
+		}
+		return nodeReturned ;
+	}
 		
 	/**
 	 * getTaskInVector : search in the vector if the object already exists
@@ -167,10 +206,61 @@ public class XMLParser {
 		return null ;
 	}
 	
-	public static TaskDefinition getRoleByRoleDescriptor(RoleDescriptor r){
-		// idem ci dessus
+	
+	/**
+	 * 
+	 * @param r
+	 * @param n
+	 * @return
+	 */
+	public static void setRoleByRoleDescriptor(RoleDescriptor _r,Node _n) throws Exception {
+		RoleDefinition roleTobereturn = null;
+		// getting the id of the role
+		String idRole = "" ;
+		NodeList listOfTdNodes = _n.getChildNodes() ;
+		boolean trouve = false ;
+		for (int i = 0 ; i < listOfTdNodes.getLength() && !trouve ; i ++){
+			if (listOfTdNodes.item(i).getNodeName().equals(role)){
+				trouve = true ;
+				idRole = listOfTdNodes.item(i).getTextContent();
+			}
+		}
+		// process if there is a task for this role desriptor
+		if (trouve){
+			roleTobereturn = getRoleInVector(idRole);
+			// if the task doesn't exist
+			if (roleTobereturn == null){
+				roleTobereturn = new RoleDefinition();
+				
+				// getting the attributes of the role
+				Node aNode = getNodeRole(idRole);
+				FillerRole aFiller = new FillerRole(roleTobereturn,aNode);
+				
+				roleTobereturn = (RoleDefinition)aFiller.getFilledElement() ;
+				RoleList.add(roleTobereturn);
+			}
+			// set the role in the roledescriptor
+			_r.addToRoleDefinition(roleTobereturn);
+		}
+	}
+
+	/**
+	 * getRoleInVector : search in the vector if the object already exists
+	 * @param id
+	 * @return
+	 */
+	public static RoleDefinition getRoleInVector (String id) {
+		for (int i = 0 ; i < RoleList.size() ; i++){
+			if (RoleList.get(i).getId().equals(id)){
+				return (RoleList.get(i));
+			}
+		}
 		return null ;
 	}
+	
+
+
+
 }
 
 
