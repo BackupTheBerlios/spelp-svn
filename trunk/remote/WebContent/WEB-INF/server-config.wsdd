@@ -38,7 +38,7 @@
   <parameter name="allowedMethods" value="getExample"/>
   <parameter name="typeMappingVersion" value="1.2"/>
   <parameter name="wsdlPortType" value="TestWebServices"/>
-  <parameter name="className" value="webservices.TestWebServices"/>
+  <parameter name="className" value="wilos.spelp.webservices.TestWebServices"/>
   <parameter name="wsdlServicePort" value="TestWebServices"/>
   <parameter name="schemaQualified" value="http://webservices"/>
   <parameter name="wsdlTargetNamespace" value="http://webservices"/>
