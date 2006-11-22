@@ -38,6 +38,8 @@ import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.jdesktop.swingx.JXTree;
 
+import ressources.Bundle;
+
 /*import parser.Parser;*/
 import view.htmlViewer.HTMLViewer;
 
@@ -114,7 +116,7 @@ public class MainFrame extends JFrame{
 
 	private JMenuItem getExitItem(){
 		if (itemExit == null){
-			itemExit = new JMenuItem("Exit");
+			itemExit = new JMenuItem(Bundle.getText("mainFrame.exit"));
 			itemExit.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
 						System.exit(0);
@@ -126,7 +128,7 @@ public class MainFrame extends JFrame{
 	}
 	private JMenuItem getFichierItem(){
 		if (itemFichier == null) {
-			itemFichier = new JMenuItem("Connection");
+			itemFichier = new JMenuItem(Bundle.getText("mainFrame.connection"));
 			itemFichier.addActionListener(new ActionListener(){
 
 				public void actionPerformed(ActionEvent e) {
@@ -178,7 +180,7 @@ public class MainFrame extends JFrame{
 	 */
 	private JMenu getMenuFichier() {
 		if (menuFichier == null) {
-			menuFichier = new JMenu("File");
+			menuFichier = new JMenu(Bundle.getText("mainFrame.file"));
 			menuFichier.add(getFichierItem());
 			menuFichier.add(getExitItem());
 		}
@@ -193,7 +195,7 @@ public class MainFrame extends JFrame{
 	}
 	
 	public MainFrame () {
-		super("SPELP : Process Execution Assistant");
+		super(Bundle.getText("mainFrame.title"));
 		this.setLayout(new BorderLayout());
 		this.setSize(Toolkit.getDefaultToolkit().getScreenSize().width/4, Toolkit.getDefaultToolkit().getScreenSize().height/3);
 		this.setLocation(0,0);
@@ -219,7 +221,7 @@ public class MainFrame extends JFrame{
 		@Override
 		public String getDescription() {
 			// TODO Auto-generated method stub
-			return "XML files export from EPF (*.XML)";
+			return Bundle.getText("mainFrame.descriptionFileChooser");
 		}
 	}
 	
