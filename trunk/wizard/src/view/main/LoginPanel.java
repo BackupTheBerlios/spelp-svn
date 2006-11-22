@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -14,6 +15,10 @@ import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+
+import ressources.Bundle;
+
+import java.awt.Button;
 
 public class LoginPanel extends JPanel {
 
@@ -56,7 +61,7 @@ public class LoginPanel extends JPanel {
 	private void initialize() {
 		//this.setSize(300, 150);
 		introLabel = new JLabel();
-		introLabel.setText(" Veuillez saisir votre login et votre mot de passe.");
+		introLabel.setText(Bundle.getText("loginPanel.labelLoginPasswd"));
 
 		this.setLayout(new BorderLayout());
 		this.add(introLabel, BorderLayout.NORTH);
@@ -87,11 +92,11 @@ public class LoginPanel extends JPanel {
 	private JPanel getFieldsPanel() {
 		if (fieldsPanel == null) {
 			adressLabel = new JLabel();
-			adressLabel.setText(" adresse du serveur");
+			adressLabel.setText(Bundle.getText("loginPanel.remoteAddress"));
 			passwordLabel = new JLabel();
-			passwordLabel.setText(" password");
+			passwordLabel.setText(Bundle.getText("loginPanel.password"));
 			loginLabel = new JLabel();
-			loginLabel.setText(" login");
+			loginLabel.setText(Bundle.getText("loginPanel.login"));
 			fieldsPanel = new JPanel();
 			fieldsPanel.setLayout(new GridLayout(3,2));
 			fieldsPanel.add(adressLabel, null);
@@ -112,7 +117,7 @@ public class LoginPanel extends JPanel {
 	private JButton getOkButton() {
 		if (okButton == null) {
 			okButton = new JButton();
-			okButton.setText("ok");
+			okButton.setText(Bundle.getText("loginPanel.ok"));
 		}
 		return okButton;
 	}
@@ -125,7 +130,7 @@ public class LoginPanel extends JPanel {
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
 			cancelButton = new JButton();
-			cancelButton.setText("cancel");
+			cancelButton.setText(Bundle.getText("loginPanel.cancel"));
 		}
 		return cancelButton;
 	}
@@ -161,7 +166,7 @@ public class LoginPanel extends JPanel {
 	 */
 	private JTextField getAdressTextField() {
 		if (adressTextField == null) {
-			adressTextField = new JTextField();
+			adressTextField = new JTextField();			
 		}
 		return adressTextField;
 	}
