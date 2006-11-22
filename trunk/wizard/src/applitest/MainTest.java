@@ -13,7 +13,7 @@ public class MainTest {
 		// on instancie le proxy local
 		TestWebServicesProxy px = new TestWebServicesProxy();
 		// on specifie l'adresse du serveur
-		px.setEndpoint("http://localhost:4080/remote/services/TestWebServices");
+		px.setEndpoint("http://localhost:8080/remote/services/TestWebServices");
 		// on appelle la méthode sur le proxy local comme on le ferait sur l'objet distant
 		try {
 			System.out.println(px.getExample());
