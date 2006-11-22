@@ -12,6 +12,8 @@ import org.junit.Test;
 
 import spelp.xml.parser.XMLParser;
 import woops2.model.process.Process;
+import woops2.model.role.RoleDefinition;
+import woops2.model.role.RoleDescriptor;
 import woops2.model.task.TaskDefinition;
 import woops2.model.task.TaskDescriptor;
 
@@ -65,5 +67,46 @@ public class XMLParserTest {
 			}
 		}
 	}
+	@Test
+	public void testSetAllRoleDescriptors() {
+		File[] f = new File[]{
+				pathScrum,pathOPenUP
+			};
+			for (int p = 0 ; p < f.length ; p++){
+				XMLParser.setFile(f[p]);
+				System.out.println(f[p].getAbsolutePath());
+				try {
+					Vector <RoleDefinition> v = new Vector<RoleDefinition>();
+					Set<RoleDescriptor> aSet = XMLParser.getAllRoleDescriptors();
+					// test if the set of role is filled
+					assertTrue(aSet.size() != 0);
+					// test if all role are unique
+					for (Iterator i = aSet.iterator() ; i.hasNext() ; ){
+						RoleDefinition t = ((RoleDescriptor)i.next()).getRoleDefinition();
+						if (t!=null){
+							for (int j = 0 ; j < v.size() ; j++){
+								System.out.println("\nID : \n" + t.getId() + "\n" + ((RoleDefinition)v.get(j)).getId() + "\nMemes ref : " + (t == ((RoleDefinition)v.get(j))));
+								assertTrue(
+									t.getId().equals(((RoleDefinition)v.get(j)).getId()) && t == ((RoleDefinition)v.get(j))
+									||
+									!t.getId().equals(((RoleDefinition)v.get(j)).getId())
+								);
+							}
+							if (!v.contains(t)){
+								v.add(t);
+							}
+						}
+					}
+				
+
+					for(int i=0;i<v.size();i++)
+						System.out.println(v.get(i).getName()+" :\n"+v.get(i).getDescription()+"\n");
+					
+				} catch (Exception e) {
+				System.out.println("Exception");
+				fail();
+			}
+		}
+	}	
 
 }
