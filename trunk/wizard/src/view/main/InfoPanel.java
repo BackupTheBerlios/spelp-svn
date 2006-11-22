@@ -10,6 +10,8 @@ import javax.swing.JScrollPane;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTaskPane;
 
+import ressources.Bundle;
+
 public class InfoPanel extends JXPanel {
 	private JXTaskPane tasks = null ;
 	private JLabel editor = null;
@@ -30,9 +32,9 @@ public class InfoPanel extends JXPanel {
 	public JXTaskPane getTasks (){
 		if (tasks == null){
 			tasks = new JXTaskPane();
-			tasks.setTitle("Informations");
+			tasks.setTitle(Bundle.getText("infoPanel.informations"));
 			tasks.setExpanded(false);
-			editor = new JLabel("no information");
+			editor = new JLabel(Bundle.getText("infoPanel.no_informations"));
 			tasks.add(editor);
 			
 		}
