@@ -15,13 +15,13 @@ import org.w3c.dom.NodeList;
 
 import spelp.xml.fillers.FillerTask;
 import spelp.xml.fillers.FillerTaskDescriptor;
+
 import woops2.model.role.RoleDescriptor;
 import woops2.model.task.TaskDefinition;
 import woops2.model.task.TaskDescriptor;
 import woops2.model.breakdownelement.BreakdownElement;
 import woops2.model.process.Process;
 
-import com.sun.jmx.snmp.tasks.Task;
 
 
 /**
@@ -89,7 +89,7 @@ public class XMLParser {
 				TaskDescriptor aTaskDescriptor = new TaskDescriptor();
 				FillerTaskDescriptor aFiller = new FillerTaskDescriptor(aTaskDescriptor,aNode);	
 				TaskDescriptor taskDescriptorfilled = (TaskDescriptor)aFiller.getFilledElement();
-				getTaskByTaskDescriptor(taskDescriptorfilled,aNode);
+				setTaskByTaskDescriptor(taskDescriptorfilled,aNode);
 				taskList.add(taskDescriptorfilled);
 			}
 		} catch (FileNotFoundException e) {
@@ -113,7 +113,7 @@ public class XMLParser {
 	 * @param t
 	 * @return a task 
 	 */
-	public static void getTaskByTaskDescriptor(TaskDescriptor _t,Node _node) throws Exception{
+	public static void setTaskByTaskDescriptor(TaskDescriptor _t,Node _node) throws Exception{
 		TaskDefinition taskTobereturn = null;
 		// getting the id of the task
 		String idTask = "" ;
@@ -167,7 +167,7 @@ public class XMLParser {
 		return null ;
 	}
 	
-	public static Task getRoleByRoleDescriptor(RoleDescriptor r){
+	public static TaskDefinition getRoleByRoleDescriptor(RoleDescriptor r){
 		// idem ci dessus
 		return null ;
 	}
